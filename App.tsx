@@ -1,9 +1,8 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {AppStack} from "./src/components/AppStack";
-import {Provider, useDispatch, useSelector} from 'react-redux';
+import {Provider} from 'react-redux';
 import Store from "./src/redux/store";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
-import Toast from "./src/components/Toast";
 
 function App(): JSX.Element {
     return (
