@@ -1,0 +1,197 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/CodeNext-ExtraBold.otf",
+      "sha1": "ebd4e9efbbfa91a42e3aaee144c9f9a8ebd4a88c"
+    },
+    {
+      "path": "assets/fonts/CodeNext-ExtraBold.ttf",
+      "sha1": "d92c83c52d702b55d4406e4d352e60829c67eb78"
+    },
+    {
+      "path": "assets/fonts/CodeNext-ExtraBoldItalic.otf",
+      "sha1": "9ab35920c4e680705e904048ec37a44951f84478"
+    },
+    {
+      "path": "assets/fonts/CodeNext-ExtraBoldItalic.ttf",
+      "sha1": "1c3f40396c9993054f87bb023a556a1e5475cacf"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-Black.otf",
+      "sha1": "c2366c62c3fdf2536625c2c85bdee020aed1d818"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-Black.ttf",
+      "sha1": "a1b276cf51d73016efd293a0d8ca1a658876d1fb"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-BlackItalic.otf",
+      "sha1": "588abd0fdd1194c5ada0510fb094bf8d9a6124af"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-BlackItalic.ttf",
+      "sha1": "fbf9a35f65d5fb69975abc30b37ce3340507f8ae"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-Bold.otf",
+      "sha1": "ca89068dc8f640a35a8232dcffc9528294d2823b"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-Bold.ttf",
+      "sha1": "d5ff856febdf194aac6917be874d6c460ee96373"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-BoldItalic.otf",
+      "sha1": "d7aa582f9565a068ba92d548334b04055cb2258a"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-BoldItalic.ttf",
+      "sha1": "31fd6de0eb3e854cf9b1f6d34bde38888d648dc0"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-Book.otf",
+      "sha1": "0c0e8cb69f55e61c751b1ac8afe8c2d954490bb8"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-Book.ttf",
+      "sha1": "8affe26b30f2827463e3316171ee45c3e82ef7ad"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-BookItalic.otf",
+      "sha1": "af625616b6806714ed139372e2df53341e29f6f4"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-BookItalic.ttf",
+      "sha1": "bcd4d0fa1f0df4eb062e0ce2af268ebd78a22273"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-ExtraBold.otf",
+      "sha1": "d6d6f2bdab26f1e387b52482b6d9a706c47bb8f4"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-ExtraBold.ttf",
+      "sha1": "54a1480c621b38132f952339674d9318a457f8ed"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-ExtraBoldItalic.otf",
+      "sha1": "479dba6dd37ca0775d31855a0b9f88474eeb86ba"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-ExtraBoldItalic.ttf",
+      "sha1": "4f80788525c52c5f72232bf886fb42093b4132d4"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-Hairline.otf",
+      "sha1": "d3e0e95795cca463e3bc84ab24c0b2c220d021b7"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-Hairline.ttf",
+      "sha1": "49a806bed290e9a93a877f8af331ac6cef63fe33"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-HairlineItalic.otf",
+      "sha1": "dbca2f14b4f345690194162d8ad94510d6dc8f48"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-HairlineItalic.ttf",
+      "sha1": "c393ff434193e87e8453950f04ac73cbc59cb9d5"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-Heavy.otf",
+      "sha1": "8ac77068a006c787c57047e9d2cb146b6433163a"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-Heavy.ttf",
+      "sha1": "bb453abf3ddb15fa282ad1f908734ee0b486c35e"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-HeavyItalic.otf",
+      "sha1": "aacec9ef8285e89cc692ca4f00602c620b196063"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-HeavyItalic.ttf",
+      "sha1": "2288c143d2cd7104a42cf4cb1ee116aad3d82ddd"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-Light.otf",
+      "sha1": "7bda8036fedb4b3f4ba8d05ff8b2d724813ccad0"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-Light.ttf",
+      "sha1": "dc7f440cb6f645b617c3fb9c8716ba44c27f48b7"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-LightItalic.otf",
+      "sha1": "8be183bd01bfdf0c3b8068c415813088a3b6e7fe"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-LightItalic.ttf",
+      "sha1": "a4510f398fb44a9265be43ab7539f0cf37229976"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-Regular.otf",
+      "sha1": "fa57898db2fba1f23b251a51b7ae72e50f8b0a82"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-Regular.ttf",
+      "sha1": "5d647589696588e9d8ef21148bb0d3555b51f6a1"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-RegularItalic.otf",
+      "sha1": "f51752a0e23ca7869b030ca470d1fc3231c40faa"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-RegularItalic.ttf",
+      "sha1": "ce1260144326bc8d985b4a59d06ecf9c027f8283"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-SemiBold.otf",
+      "sha1": "d2bf6a0d9373564112cf9ff352afb817964990b3"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-SemiBold.ttf",
+      "sha1": "018601c03447aaa7ebeb7acd901b5bb2489e37c7"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-SemiBoldItalic.otf",
+      "sha1": "2f79eb66e6e5be3225e75cbb4920c15b21c6bd97"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-SemiBoldItalic.ttf",
+      "sha1": "53ac833dd1316eb2212c055666fb94b3f4afbc72"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-Thin.otf",
+      "sha1": "fbf25903a9ca75c6d82f9e0c33813aa96c610d0c"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-Thin.ttf",
+      "sha1": "e75425f7aa567bc45a1fdfb2cf864d1401d34256"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-ThinItalic.otf",
+      "sha1": "8d004181fbfac4232a46fa73063ee90cb506e78b"
+    },
+    {
+      "path": "assets/fonts/CodeNext-Trial-ThinItalic.ttf",
+      "sha1": "19bfb43b4905a9292a2f2473015212b99f682f8e"
+    },
+    {
+      "path": "assets/fonts/COPYRIGHT.txt",
+      "sha1": "de291dc43d1bb9d75c62ec291e67041447e9f35f"
+    },
+    {
+      "path": "assets/fonts/FF-EULA-License-ver2.2.pdf",
+      "sha1": "c540077680673e8f9a05bd946d6a8ddae430e53f"
+    },
+    {
+      "path": "assets/fonts/FF-Trial-EULAt-ver1.0.pdf",
+      "sha1": "504309270035893f82a8cdffda6ecae4f1fc6d3a"
+    },
+    {
+      "path": "assets/fonts/How-to-install-your-Fontfabric-Fonts.pdf",
+      "sha1": "c633dbd097ab7f026ce7338a0b036e94541755f5"
+    }
+  ]
+}
