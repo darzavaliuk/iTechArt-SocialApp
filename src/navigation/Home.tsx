@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
-import {SafeAreaView, StatusBar, Text} from 'react-native';
+import React from 'react';
+import {StatusBar, Text} from 'react-native';
 import {NavigationContainer} from "@react-navigation/native";
-import Spinner from "react-native-spinkit"
 import {useSelector} from 'react-redux';
 import Auth from "./Auth";
 import {Loader} from "../components/Loader";
