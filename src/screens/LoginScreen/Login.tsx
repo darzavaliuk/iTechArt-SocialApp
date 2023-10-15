@@ -16,7 +16,7 @@ import {loginValidationSchema} from "./validationScheme";
 import Animated, {Easing, useAnimatedStyle, useSharedValue, withTiming} from 'react-native-reanimated';
 import Toast from "../../components/Toast";
 import {resetError} from "../../redux/actions/resetError";
-import {displayErrorMessage} from "../utils/displayMessage";
+import {displayErrorMessage} from "../../utils/displayMessage";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedText} from "./AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";

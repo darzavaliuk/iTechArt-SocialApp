@@ -9,7 +9,7 @@ import {Formik} from "formik";
 import {styles} from "./styles";
 import {Loader} from "../../components/Loader";
 import Animated, {} from "react-native-reanimated";
-import {displayErrorMessage} from "../utils/displayMessage";
+import {displayErrorMessage} from "../../utils/displayMessage";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedText} from "./AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";

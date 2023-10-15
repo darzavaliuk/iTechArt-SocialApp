@@ -10,7 +10,7 @@ import {styles} from "./style";
 import {signUpValidationSchema} from "./signUpValidationScheme";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {NavigationProp} from "@react-navigation/native";
-import {displayErrorMessage} from "../utils/displayMessage";
+import {displayErrorMessage} from "../../utils/displayMessage";
 import {AnimatedText} from "../LoginScreen/AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";
 
