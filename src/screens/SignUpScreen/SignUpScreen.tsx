@@ -70,7 +70,7 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
 
 
     return (
-        <View style={{flex: 1, backgroundColor: colors.WHITEBLUE}}>
+        <View style={styles.wrapper}>
             <AnimatedBackground/>
             <Formik
                 validationSchema={signUpValidationSchema}

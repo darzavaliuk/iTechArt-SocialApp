@@ -3,6 +3,10 @@ import {colors} from "../../../assets/colors/colors";
 import {fontFamily} from "../../../assets/fontFamily/fontFamily";
 
 export const styles = StyleSheet.create({
+    wrapper: {
+        flex: 1,
+        backgroundColor: colors.WHITEBLUE
+    },
     container: {
         flex: 1,
         flexDirection: "column",
