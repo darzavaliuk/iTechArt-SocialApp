@@ -20,7 +20,7 @@ export const ResetPasswordScreen = () => {
     const dispatch = useDispatch();
 
     return (
-        <View style={{flex: 1, backgroundColor: "#dbe9f6"}}>
+        <View style={styles.wrapper}>
             <Formik
                 validationSchema={resetPasswordValidationScheme}
                 initialValues={{passwordRepeat: '', password: ''}}

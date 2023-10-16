@@ -3,12 +3,10 @@ import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {forgetPassword} from "../../redux/actions/forgetPassword";
 import {useNavigation} from "@react-navigation/native";
-import {CodeVerify} from "../CodeVerifyScreen/CodeVerify";
 import {emailValidationSchema} from "../LoginScreen/validationScheme";
 import {Formik} from "formik";
 import {styles} from "./styles";
 import {Loader} from "../../components/Loader";
-import Animated, {} from "react-native-reanimated";
 import {displayErrorMessage} from "../../utils/displayMessage";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedText} from "./AnimatedText";
@@ -40,7 +38,7 @@ export const ForgetPasswordScreen = () => {
     };
 
     return (
-        <View style={{flex: 1, backgroundColor: "#dbe9f6"}}>
+        <View style={styles.wrapper}>
             {
                 loading ? (
                     <Loader/>

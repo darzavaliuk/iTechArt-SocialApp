@@ -6,7 +6,7 @@ import {fontSizes} from "../../../assets/fontSizes/fontSizes";
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.WHITEBlUE
+        backgroundColor: colors.WHITEBLUE
     },
     content: {
         flex: 1,
@@ -82,7 +82,7 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 260,
         zIndex: 0,
-        borderColor: "#0e1c4c",
+        borderColor: colors.DARKBLUE,
         left: 0,
     },
 })

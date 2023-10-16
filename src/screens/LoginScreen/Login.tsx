@@ -5,7 +5,7 @@ import {
     TouchableOpacity,
     Image,
 } from 'react-native';
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {loginUser} from "../../redux/actions/loginAction";
 import {loadUser} from "../../redux/actions/loadUser";
@@ -13,13 +13,13 @@ import {useNavigation} from "@react-navigation/native";
 import {Formik} from "formik";
 import {styles} from "./style";
 import {loginValidationSchema} from "./validationScheme";
-import Animated, {Easing, useAnimatedStyle, useSharedValue, withTiming} from 'react-native-reanimated';
-import Toast from "../../components/Toast";
+import Animated from 'react-native-reanimated';
 import {resetError} from "../../redux/actions/resetError";
 import {displayErrorMessage} from "../../utils/displayMessage";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedText} from "./AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";
+import {colors} from "../../../assets/colors/colors";
 
 export const LoginScreen = () => {
     const navigation = useNavigation();
@@ -41,11 +41,9 @@ export const LoginScreen = () => {
         }
     }, [isAuthenticated, error]);
 
-    const toastRef = useRef();
-
     return (
-        <View style={{flex: 1, backgroundColor: "#dbe9f6"}}>
-            <Toast ref={toastRef}/>
+        <View style={{flex: 1, backgroundColor: colors.WHITEBLUE}}>
+            {/*<Toast ref={toastRef}/>*/}
             <Formik
                 validationSchema={loginValidationSchema}
                 initialValues={{email: '', password: ''}}

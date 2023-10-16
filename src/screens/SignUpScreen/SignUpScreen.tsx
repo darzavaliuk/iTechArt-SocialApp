@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import {registerUser} from "../../redux/actions/registerUser";
 import {Formik} from "formik";
-import Animated, {Easing, interpolate, useAnimatedStyle, useSharedValue, withTiming} from "react-native-reanimated";
+import {Easing, useSharedValue, withTiming} from "react-native-reanimated";
 import {styles} from "./style";
 import {signUpValidationSchema} from "./signUpValidationScheme";
 import {RootState} from "../../redux/reducers/rootReducer";
@@ -70,7 +70,7 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
 
 
     return (
-        <View style={{flex: 1, backgroundColor: "#dbe9f6"}}>
+        <View style={{flex: 1, backgroundColor: colors.WHITEBLUE}}>
             <AnimatedBackground/>
             <Formik
                 validationSchema={signUpValidationSchema}

@@ -3,7 +3,6 @@ import React, {useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import {useNavigation} from "@react-navigation/native";
 import {styles} from "./style";
-import Animated from "react-native-reanimated";
 import {displayErrorMessage} from "../../utils/displayMessage";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedBackground} from "./AnimatedBackground";

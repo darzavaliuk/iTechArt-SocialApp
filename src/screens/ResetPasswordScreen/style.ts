@@ -1,21 +1,25 @@
 import {StyleSheet} from "react-native";
+import {colors} from "../../../assets/colors/colors";
+import {fontFamily} from "../../../assets/fontFamily/fontFamily";
 
-export
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
+    wrapper: {
+        flex: 1,
+        backgroundColor: colors.WHITEBLUE
+    },
     container: {
         flex: 1,
-        // alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
         paddingHorizontal: 20,
     },
     title: {
-        color: "#0e1c4c",
-        fontFamily: "CodeNext-ExtraBold",
+        color: colors.DARKBLUE,
+        fontFamily: fontFamily.EXTRABOLD,
         fontSize: 46,
     },
     input: {
-        backgroundColor: "#f0f6fc",
+        backgroundColor: colors.WHITE,
         borderRadius: 40,
         paddingLeft: 45,
         paddingRight: 10,
@@ -23,7 +27,7 @@ const styles = StyleSheet.create({
         marginHorizontal: -20,
         fontSize: 20,
         letterSpacing: -1,
-        fontFamily: "CodeNext-Trial-Regular",
+        fontFamily: fontFamily.REGULAR,
         flex: 1,
         marginVertical: 5
     },
@@ -36,13 +40,13 @@ const styles = StyleSheet.create({
     },
     error: {
         fontSize: 12,
-        fontFamily: "CodeNext-Trial-Regular",
+        fontFamily: fontFamily.REGULAR,
         letterSpacing: -0.3,
         color: "red",
         marginLeft: 45
     },
     signUpText: {
-        color: "#0e1c4c",
+        color: colors.DARKBLUE,
         fontSize: 14,
         marginBottom: 20,
         alignSelf: "center"
@@ -52,25 +56,25 @@ const styles = StyleSheet.create({
         borderStyle: "dotted",
         borderWidth: 2,
         borderColor: "black",
-        fontFamily: "CodeNext-ExtraBold",
+        fontFamily: fontFamily.EXTRABOLD,
         fontSize: 16,
 
     },
     loginText: {
-        fontFamily: "CodeNext-Trial-Regular",
+        fontFamily: fontFamily.REGULAR,
         fontWeight: "900",
-        color: "#f0f6fc",
+        color: colors.WHITE,
         fontSize: 24
     },
     loginButton: {
-        backgroundColor: "#0e1c4c",
+        backgroundColor: colors.DARKBLUE,
         width: 160,
         borderRadius: 150,
         alignItems: "center",
         paddingVertical: 20,
         borderStyle: "dotted",
         borderWidth: 2,
-        borderColor: "#dbe9f6",
+        borderColor: colors.WHITEBLUE,
         margin: 10
     },
 })
