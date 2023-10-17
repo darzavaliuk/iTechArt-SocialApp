@@ -1,4 +1,11 @@
 import {createReducer} from '@reduxjs/toolkit';
+import {
+    LOAD_USER_REQUEST,
+    LOGIN_USER_REQUEST,
+    REGISTER_USER_REQUEST,
+    RESET_ERROR,
+    RESET_PASSWORD_REQUEST
+} from "../types/types";
 
 const initialState = {
     isAuthenticated: false,
@@ -13,70 +20,70 @@ const initialState = {
 };
 
 export const userReducer = createReducer(initialState, {
-    resetError: state => {
+    RESET_ERROR: state => {
         state.error = null;
     },
-    userRegisterRequest: state => {
+    REGISTER_USER_REQUEST: state => {
         state.loading = true;
         state.isAuthenticated = false;
     },
-    userRegisterSuccess: (state, action) => {
+    REGISTER_USER_SUCCESS: (state, action) => {
         state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload;
     },
-    userRegisterFailed: (state, action) => {
+    REGISTER_USER_FAILED: (state, action) => {
         state.loading = false;
         state.isAuthenticated = false;
         state.error = action.payload;
     },
-    userLoadRequest: state => {
+    LOAD_USER_REQUEST: state => {
         state.loading = true;
         state.isAuthenticated = false;
     },
-    userLoadSuccess: (state, action) => {
+    LOAD_USER_SUCCESS: (state, action) => {
         state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload.user;
         state.token = action.payload.token;
     },
-    userLoadFailed: (state) => {
+    LOAD_USER_FAILED: (state) => {
         state.loading = false;
         state.isAuthenticated = false;
     },
-    userLoginRequest: state => {
+    LOGIN_USER_REQUEST: state => {
         state.isAuthenticated = false;
         state.loading = true;
     },
-    userLoginSuccess: (state, action) => {
+    LOGIN_USER_SUCCESS: (state, action) => {
         state.isAuthenticated = true;
         state.loading = false;
         state.user = action.payload;
     },
-    userLoginFailed: (state, action) => {
+    LOGIN_USER_FAILED: (state, action) => {
         state.isAuthenticated = false;
         state.loading = false;
         state.error = action.payload;
         state.user = {};
     },
-    forgetPasswordRequest: state => {
+    FORGET_PASSWORD_REQUEST: state => {
         state.code = "";
     },
-    forgetPasswordSuccess: (state, action) => {
+    FORGET_PASSWORD_SUCCESS: (state, action) => {
         state.code = action.payload.code;
         state.email = action.payload.email;
     },
-    forgetPasswordFailed: (state, action) => {
+    FORGET_PASSWORD_FAILED: (state, action) => {
         state.code = "";
         state.error = action.payload;
     },
-    resetPasswordRequest: (state, action) => {
+    RESET_PASSWORD_REQUEST: (state, action) => {
         state.error = action.payload;
     },
-    resetPasswordSuccess: (state, action) => {
+    RESET_PASSWORD_SUCCESS: (state, action) => {
         state.error = action.payload;
     },
-    resetPasswordFailed: (state, action) => {
+    RESET_PASSWORD_FAILED: (state, action) => {
         state.error = action.payload;
     },
     userLogoutRequest: state => {

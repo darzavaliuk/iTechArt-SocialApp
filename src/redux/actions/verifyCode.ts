@@ -21,7 +21,7 @@ export const verifyCode =
                     type: 'verifyPasswordSuccess',
                     payload: data,
                 });
-            } catch (error: any) {
+            } catch (error: unknown) {
                 dispatch({
                     type: 'verifyPasswordFailed',
                     payload: (error as AxiosError<{ message: string }>)?.response?.data?.message || "Unexpected error",

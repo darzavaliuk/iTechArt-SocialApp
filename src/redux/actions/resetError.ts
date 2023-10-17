@@ -1,15 +1,15 @@
-import {Dispatch} from "react";
+import { Dispatch } from "react";
+import { ActionType } from "typesafe-actions";
 import {RESET_ERROR} from "../types/types";
+import {createAction} from "redux-actions";
 
-type ResetErrorAction = {
-    type: typeof RESET_ERROR;
-}
+type ResetErrorRequestPayload = void;
 
+const resetErrorRequest = createAction<ResetErrorRequestPayload>(RESET_ERROR);
 
-export const resetError =
-    () =>
-        async (dispatch: Dispatch<ResetErrorAction>) => {
-            dispatch({
-                type: RESET_ERROR,
-            })
-        }
+type ResetErrorAction =
+    | ActionType<typeof resetErrorRequest>
+
+export const resetError = () => async (dispatch: Dispatch<ResetErrorAction>) => {
+    dispatch(resetErrorRequest());
+};
