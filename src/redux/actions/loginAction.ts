@@ -6,7 +6,7 @@ import {
     LOGIN_USER_FAILED,
     LOGIN_USER_REQUEST,
     LOGIN_USER_SUCCESS
-} from "../types/types";
+} from "../actionTypes/actionTypes";
 import {setToken} from "../../utils/setToken";
 
 const loginUserRequest = createAction(LOGIN_USER_REQUEST)();

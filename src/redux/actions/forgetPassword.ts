@@ -6,7 +6,7 @@ import {
     FORGET_PASSWORD_FAILED,
     FORGET_PASSWORD_REQUEST,
     FORGET_PASSWORD_SUCCESS
-} from "../types/types";
+} from "../actionTypes/actionTypes";
 
 const forgetPasswordRequest = createAction(FORGET_PASSWORD_REQUEST)();
 const forgetPasswordSuccess = createAction(FORGET_PASSWORD_SUCCESS)<{ code: string, email: string }>();

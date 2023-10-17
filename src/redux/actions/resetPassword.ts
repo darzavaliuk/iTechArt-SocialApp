@@ -3,7 +3,7 @@ import axios, {AxiosError} from "axios";
 import {URI} from "../../URI";
 import {Dispatch} from "react";
 import {ActionType} from "typesafe-actions";
-import {RESET_PASSWORD_FAILED, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS} from "../types/types";
+import {RESET_PASSWORD_FAILED, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS} from "../actionTypes/actionTypes";
 
 type ResetPasswordRequestPayload = void;
 type ResetPasswordSuccessPayload = { data: any };

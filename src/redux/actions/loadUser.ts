@@ -6,7 +6,7 @@ import {
     LOAD_USER_FAILED,
     LOAD_USER_REQUEST,
     LOAD_USER_SUCCESS
-} from "../types/types";
+} from "../actionTypes/actionTypes";
 import {getToken} from "../../utils/getToken";
 
 const loadUserRequest = createAction(LOAD_USER_REQUEST)();

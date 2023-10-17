@@ -5,7 +5,7 @@ import {
     REGISTER_USER_REQUEST,
     RESET_ERROR,
     RESET_PASSWORD_REQUEST
-} from "../types/types";
+} from "../actionTypes/actionTypes";
 
 const initialState = {
     isAuthenticated: false,

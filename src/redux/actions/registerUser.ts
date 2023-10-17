@@ -3,8 +3,9 @@ import {URI} from "../../URI";
 import axios, {AxiosError} from "axios";
 import {Dispatch} from "react";
 import {ActionType} from "typesafe-actions";
-import * as types from "../types/types";
+import * as types from "../actionTypes/actionTypes";
 import {createAction} from "redux-actions";
+import {setToken} from "../../utils/setToken";
 
 type ResetPasswordSuccessPayload = { user: any };
 type ResetPasswordFailedPayload = { error: string };
@@ -43,6 +44,10 @@ export const registerUser = (
         dispatch(registerUserSuccess(data.user));
 
         await AsyncStorage.setItem("token", data.token);
+        setToken(data.token).catch((error) => dispatch(
+            registerUserFailed(
+                {error: (error as AxiosError<{ message: string }>)?.response?.data?.message || "Unexpected error"})
+        ))
     } catch (error) {
         dispatch(
             registerUserFailed(

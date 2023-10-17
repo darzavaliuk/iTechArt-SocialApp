@@ -1,6 +1,6 @@
 import { Dispatch } from "react";
 import { ActionType } from "typesafe-actions";
-import {RESET_ERROR} from "../types/types";
+import {RESET_ERROR} from "../actionTypes/actionTypes";
 import {createAction} from "redux-actions";
 
 type ResetErrorRequestPayload = void;
