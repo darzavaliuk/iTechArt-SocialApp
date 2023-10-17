@@ -1,33 +1,33 @@
-export const forgetPasswordRequest = 'forgetPasswordRequest';
+export const FORGET_PASSWORD_REQUEST = 'FORGET_PASSWORD_REQUEST';
 
-export const forgetPasswordSuccess = 'forgetPasswordSuccess'
+export const FORGET_PASSWORD_SUCCESS = 'FORGET_PASSWORD_SUCCESS'
 
-export const forgetPasswordFailed = 'forgetPasswordFailed'
+export const FORGET_PASSWORD_FAILED = 'FORGET_PASSWORD_FAILED'
 
-export const userLoadRequest = 'userLoadRequest';
+export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST';
 
-export const userLoadSuccess = 'userLoadSuccess'
+export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS'
 
-export const userLoadFailed = 'userLoadFailed'
+export const LOAD_USER_FAILED = 'LOAD_USER_FAILED'
 
-export const userLoginRequest = 'userLoginRequest'
+export const LOGIN_USER_REQUEST = 'LOGIN_USER_REQUEST'
 
-export const userLoginSuccess = 'userLoginSuccess'
+export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS'
 
-export const userLoginFailed = 'userLoginFailed'
+export const LOGIN_USER_FAILED = 'LOGIN_USER_FAILED'
 
-export const userRegisterRequest = 'userRegisterRequest'
+export const REGISTER_USER_REQUEST = 'REGISTER_USER_REQUEST'
 
-export const userRegisterSuccess = 'userRegisterSuccess'
+export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS'
 
-export const userRegisterFailed = 'userRegisterFailed'
+export const REGISTER_USER_FAILED = 'REGISTER_USER_FAILED'
 
-export const resetErrorType = 'resetError'
+export const RESET_ERROR = 'RESET_ERROR'
 
-export const resetPasswordRequest = 'resetPasswordRequest'
+export const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST'
 
-export const resetPasswordSuccess = 'resetPasswordSuccess'
+export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS'
 
-export const resetPasswordFailed = 'resetPasswordFailed'
+export const RESET_PASSWORD_FAILED = 'RESET_PASSWORD_FAILED'
 
 

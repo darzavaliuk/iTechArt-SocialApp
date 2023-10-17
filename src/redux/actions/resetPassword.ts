@@ -2,22 +2,22 @@ import {Dispatch} from "react";
 import axios, {AxiosError} from "axios";
 import {URI} from "../../URI";
 import {
-    resetPasswordFailed,
-    resetPasswordRequest,
-    resetPasswordSuccess
+    RESET_PASSWORD_FAILED,
+    RESET_PASSWORD_REQUEST,
+    RESET_PASSWORD_SUCCESS
 } from "../types/types";
 
 interface ResetPasswordRequestAction {
-    type: typeof resetPasswordRequest;
+    type: typeof RESET_PASSWORD_REQUEST;
 }
 
 interface ResetPasswordSuccessAction {
-    type: typeof resetPasswordSuccess;
+    type: typeof RESET_PASSWORD_SUCCESS;
     payload: { user: string };
 }
 
 interface ResetPasswordFailedAction {
-    type: typeof resetPasswordFailed;
+    type: typeof RESET_PASSWORD_FAILED;
     payload: string;
 }
 
@@ -32,7 +32,7 @@ export const resetPassword =
         async (dispatch: Dispatch<ResetPasswordAction>) => {
             try {
                 dispatch({
-                    type: resetPasswordRequest,
+                    type: RESET_PASSWORD_REQUEST,
                 });
 
                 const config = {headers: {'Content-Type': 'application/json'}};
@@ -43,12 +43,12 @@ export const resetPassword =
                     config,
                 );
                 dispatch({
-                    type: resetPasswordSuccess,
+                    type: RESET_PASSWORD_SUCCESS,
                     payload: data,
                 });
             } catch (error: unknown) {
                 dispatch({
-                    type: resetPasswordFailed,
+                    type: RESET_PASSWORD_FAILED,
                     payload: (error as AxiosError<{ message: string }>)?.response?.data?.message || "Unexpected error",
                 });
             }

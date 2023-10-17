@@ -3,19 +3,19 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {URI} from "../../URI";
 import axios, {AxiosError} from "axios";
 import {Dispatch} from "react";
-import {userRegisterFailed, userRegisterRequest, userRegisterSuccess} from "../types/types";
+import {REGISTER_USER_FAILED, REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS} from "../types/types";
 
 interface RegisterUserRequestAction {
-    type: typeof userRegisterRequest;
+    type: typeof REGISTER_USER_REQUEST;
 }
 
 interface RegisterUserSuccessAction {
-    type: typeof userRegisterSuccess;
+    type: typeof REGISTER_USER_SUCCESS;
     payload: { user: string };
 }
 
 interface RegisterUserFailedAction {
-    type: typeof userRegisterFailed;
+    type: typeof REGISTER_USER_FAILED;
     payload: string;
 }
 
@@ -30,7 +30,7 @@ export const registerUser =
         async (dispatch: Dispatch<RegisterUserAction>) => {
             try {
                 dispatch({
-                    type: userRegisterRequest,
+                    type: REGISTER_USER_REQUEST,
                 });
 
                 const config = {headers: {'Content-Type': 'application/json'}};
@@ -41,13 +41,13 @@ export const registerUser =
                     config,
                 );
                 dispatch({
-                    type: userRegisterSuccess,
+                    type: REGISTER_USER_SUCCESS,
                     payload: data.user,
                 });
                 await AsyncStorage.setItem('token', data.token);
             } catch (error: unknown) {
                 dispatch({
-                    type: userRegisterFailed,
+                    type: REGISTER_USER_FAILED,
                     payload: (error as AxiosError<{ message: string }>)?.response?.data?.message || "Unexpected error",
                 });
             }

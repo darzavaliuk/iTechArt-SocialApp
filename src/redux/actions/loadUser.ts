@@ -2,10 +2,10 @@ import {Dispatch} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios, {AxiosError} from "axios";
 import {URI} from "../../URI";
-import {userLoadFailed, userLoadRequest, userLoadSuccess} from "../types/types";
+import {LOAD_USER_FAILED, LOAD_USER_REQUEST, LOAD_USER_SUCCESS} from "../types/types";
 
 interface LoadUserRequestAction {
-    type: 'userLoadRequest';
+    type: typeof LOAD_USER_REQUEST;
 }
 
 interface LoadUserSuccessAction {
@@ -27,7 +27,7 @@ type LoadUserAction =
 export const loadUser = () => async (dispatch: Dispatch<LoadUserAction>) => {
     try {
         dispatch({
-            type: userLoadRequest,
+            type: LOAD_USER_REQUEST,
         });
 
         const token = await AsyncStorage.getItem('token');
@@ -37,7 +37,7 @@ export const loadUser = () => async (dispatch: Dispatch<LoadUserAction>) => {
         });
 
         dispatch({
-            type: userLoadSuccess,
+            type: LOAD_USER_SUCCESS,
             payload: {
                 user: data.user,
                 token,
@@ -45,7 +45,7 @@ export const loadUser = () => async (dispatch: Dispatch<LoadUserAction>) => {
         });
     } catch (error: unknown) {
         dispatch({
-            type: userLoadFailed,
+            type: LOAD_USER_FAILED,
             payload: (error as AxiosError<{ message: string }>)?.response?.data?.message || "Unexpected error",
         });
     }

@@ -1,7 +1,7 @@
 import {Dispatch} from "react";
 import axios, {AxiosError} from "axios";
 import {URI} from "../../URI";
-import {forgetPasswordFailed, forgetPasswordRequest, forgetPasswordSuccess} from "../types/types";
+import {FORGET_PASSWORD_FAILED, FORGET_PASSWORD_REQUEST, FORGET_PASSWORD_SUCCESS} from "../types/types";
 
 interface ForgetPasswordRequestAction {
     type: 'forgetPasswordRequest';
@@ -27,7 +27,7 @@ export const forgetPassword =
         async (dispatch: Dispatch<ForgetPasswordAction>) => {
             try {
                 dispatch({
-                    type: forgetPasswordRequest,
+                    type: FORGET_PASSWORD_REQUEST,
                 });
 
                 const config = {headers: {'Content-Type': 'application/json'}};
@@ -38,12 +38,12 @@ export const forgetPassword =
                     config,
                 );
                 dispatch({
-                    type: forgetPasswordSuccess,
+                    type: FORGET_PASSWORD_SUCCESS,
                     payload: {code: data.code, email: email},
                 });
             } catch (error: unknown) {
                 dispatch({
-                    type: forgetPasswordFailed,
+                    type: FORGET_PASSWORD_FAILED,
                     payload: (error as AxiosError<{ message: string }>)?.response?.data?.message || "Unexpected error",
                 });
             }

@@ -1,8 +1,8 @@
 import {Dispatch} from "react";
-import {resetErrorType} from "../types/types";
+import {RESET_ERROR} from "../types/types";
 
 type ResetErrorAction = {
-    type: typeof resetErrorType;
+    type: typeof RESET_ERROR;
 }
 
 
@@ -10,6 +10,6 @@ export const resetError =
     () =>
         async (dispatch: Dispatch<ResetErrorAction>) => {
             dispatch({
-                type: resetErrorType,
+                type: RESET_ERROR,
             })
         }
