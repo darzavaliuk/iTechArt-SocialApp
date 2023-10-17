@@ -1,5 +1,4 @@
 import { Dispatch } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios, { AxiosError } from "axios";
 import { URI } from "../../URI";
 import { createAction, ActionType } from "typesafe-actions";
@@ -8,9 +7,10 @@ import {
     LOAD_USER_REQUEST,
     LOAD_USER_SUCCESS
 } from "../types/types";
+import {getToken} from "../../utils/getToken";
 
 const loadUserRequest = createAction(LOAD_USER_REQUEST)();
-const loadUserSuccess = createAction(LOAD_USER_SUCCESS)<{ user: string, token: string | null }>();
+const loadUserSuccess = createAction(LOAD_USER_SUCCESS)<{ user: string, token: string | undefined }>();
 const loadUserFailed = createAction(LOAD_USER_FAILED)<string>();
 
 type LoadUserAction =
@@ -22,7 +22,14 @@ export const loadUser = () => async (dispatch: Dispatch<LoadUserAction>) => {
     try {
         dispatch(loadUserRequest());
 
-        const token = await AsyncStorage.getItem('token');
+        let token = "";
+
+        getToken().then((token) => {
+            const tokenString: string | undefined = token;
+            console.log(tokenString);
+        }).catch((error) => {
+            dispatch(loadUserFailed((error as AxiosError<{ message: string }>)?.response?.data?.message || "Unexpected error"));
+        });
 
         const { data } = await axios.get(`${URI}/me`, {
             headers: { Authorization: `Bearer ${token}` },
