@@ -6,7 +6,7 @@ import {useNavigation} from "@react-navigation/native";
 import {emailValidationSchema} from "../LoginScreen/validationScheme";
 import {Formik} from "formik";
 import {styles} from "./styles";
-import {Loader} from "../../components/Loader";
+import {Loader} from "../../components/Loader/Loader";
 import {displayErrorMessage} from "../../utils/displayMessage";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedText} from "./AnimatedText";

@@ -3,7 +3,7 @@ import {StatusBar, Text} from 'react-native';
 import {NavigationContainer} from "@react-navigation/native";
 import {useSelector} from 'react-redux';
 import Auth from "./Auth";
-import {Loader} from "../components/Loader";
+import {Loader} from "../components/Loader/Loader";
 
 const HomeScreen = () => {
     const {isAuthenticated, loading} = useSelector((state: any) => state.user);
