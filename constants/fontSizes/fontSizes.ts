@@ -1,4 +1,4 @@
-export const fontSizes = {
+export const FONT_SIZES = {
     SUBTITLE: 30,
     NORMAL: 18,
     TITLE: 60,

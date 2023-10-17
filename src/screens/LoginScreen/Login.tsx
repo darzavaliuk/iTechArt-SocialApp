@@ -19,7 +19,7 @@ import {displayErrorMessage} from "../../utils/displayMessage";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedText} from "./AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";
-import {colors} from "../../../assets/colors/colors";
+import {COLORS} from "../../../constants/colors/colors";
 
 export const LoginScreen = () => {
     const navigation = useNavigation();
@@ -42,7 +42,7 @@ export const LoginScreen = () => {
     }, [isAuthenticated, error]);
 
     return (
-        <View style={{flex: 1, backgroundColor: colors.WHITEBLUE}}>
+        <View style={{flex: 1, backgroundColor: COLORS.WHITEBLUE}}>
             {/*<Toast ref={toastRef}/>*/}
             <Formik
                 validationSchema={loginValidationSchema}

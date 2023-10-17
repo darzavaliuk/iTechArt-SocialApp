@@ -1,11 +1,11 @@
 import {StyleSheet} from "react-native";
-import {colors} from "../../../assets/colors/colors";
-import {fontFamily} from "../../../assets/fontFamily/fontFamily";
+import {COLORS} from "../../../constants/colors/colors";
+import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
 
 export const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        backgroundColor: colors.WHITEBLUE
+        backgroundColor: COLORS.WHITEBLUE
     },
     container: {
         flex: 1,
@@ -14,13 +14,13 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     title: {
-        color: colors.DARKBLUE,
-        fontFamily: fontFamily.EXTRABOLD,
+        color: COLORS.DARKBLUE,
+        fontFamily: FONT_FAMILY.EXTRABOLD,
         fontSize: 60,
         alignSelf: "flex-end"
     },
     input: {
-        backgroundColor: colors.WHITE,
+        backgroundColor: COLORS.WHITE,
         borderRadius: 40,
         paddingLeft: 45,
         paddingRight: 10,
@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
         marginHorizontal: -20,
         fontSize: 20,
         letterSpacing: -1,
-        fontFamily: fontFamily.REGULAR,
+        fontFamily: FONT_FAMILY.REGULAR,
         flex: 1,
         marginVertical: 5
     },
@@ -41,13 +41,13 @@ export const styles = StyleSheet.create({
     },
     error: {
         fontSize: 12,
-        fontFamily: fontFamily.REGULAR,
+        fontFamily: FONT_FAMILY.REGULAR,
         letterSpacing: -0.3,
         color: "red",
         marginLeft: 45
     },
     signUpText: {
-        color: colors.DARKBLUE,
+        color: COLORS.DARKBLUE,
         fontSize: 14,
         marginBottom: 20,
         alignSelf: "center"
@@ -56,25 +56,25 @@ export const styles = StyleSheet.create({
         borderStyle: "dotted",
         borderWidth: 2,
         borderColor: "black",
-        fontFamily: fontFamily.EXTRABOLD,
+        fontFamily: FONT_FAMILY.EXTRABOLD,
         fontSize: 16,
 
     },
     loginText: {
-        fontFamily: fontFamily.REGULAR,
+        fontFamily: FONT_FAMILY.REGULAR,
         fontWeight: "900",
-        color: colors.WHITE,
+        color: COLORS.WHITE,
         fontSize: 24
     },
     loginButton: {
-        backgroundColor: colors.DARKBLUE,
+        backgroundColor: COLORS.DARKBLUE,
         width: 160,
         borderRadius: 150,
         alignItems: "center",
         paddingVertical: 20,
         borderStyle: "dotted",
         borderWidth: 2,
-        borderColor: colors.WHITEBLUE,
+        borderColor: COLORS.WHITEBLUE,
         margin: 10,
         alignSelf: "flex-end"
     },

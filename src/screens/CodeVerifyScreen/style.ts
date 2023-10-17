@@ -1,12 +1,12 @@
 import {StyleSheet} from "react-native";
-import {colors} from "../../../assets/colors/colors";
-import {fontFamily} from "../../../assets/fontFamily/fontFamily";
-import {fontSizes} from "../../../assets/fontSizes/fontSizes";
+import {COLORS} from "../../../constants/colors/colors";
+import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
+import {FONT_SIZES} from "../../../constants/fontSizes/fontSizes";
 
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.WHITEBLUE
+        backgroundColor: COLORS.WHITEBLUE
     },
     content: {
         flex: 1,
@@ -17,45 +17,45 @@ export const styles = StyleSheet.create({
         justifyContent: "center"
     },
     code: {
-        backgroundColor: colors.WHITE,
-        fontSize: fontSizes.SUBTITLE,
+        backgroundColor: COLORS.WHITE,
+        fontSize: FONT_SIZES.SUBTITLE,
         letterSpacing: -1,
-        fontFamily: fontFamily.REGULAR,
+        fontFamily: FONT_FAMILY.REGULAR,
         marginVertical: 5,
         margin: 5,
         borderRadius: 20,
         width: 60,
         textAlign: "center",
-        borderColor: colors.LIGHTGREY,
+        borderColor: COLORS.LIGHTGREY,
         borderWidth: 1
     },
     submitButton: {
         alignSelf: "center",
-        backgroundColor: colors.WHITE,
+        backgroundColor: COLORS.WHITE,
         borderRadius: 50,
         padding: 20,
         borderWidth: 2,
         borderColor: "black"
     },
     text: {
-        fontSize: fontSizes.NORMAL,
+        fontSize: FONT_SIZES.NORMAL,
         color: "black"
     },
     title: {
-        color: colors.DARKBLUE,
-        fontFamily: fontFamily.EXTRABOLD,
-        fontSize: fontSizes.TITLE,
+        color: COLORS.DARKBLUE,
+        fontFamily: FONT_FAMILY.EXTRABOLD,
+        fontSize: FONT_SIZES.TITLE,
         alignSelf: "center",
         zIndex: 1,
     },
     verifyCodeText: {
-        fontFamily: fontFamily.REGULAR,
+        fontFamily: FONT_FAMILY.REGULAR,
         fontWeight: "900",
-        color: colors.WHITE,
-        fontSize: fontSizes.BUTTON,
+        color: COLORS.WHITE,
+        fontSize: FONT_SIZES.BUTTON,
     },
     verifyCodeButton: {
-        backgroundColor: colors.DARKBLUE,
+        backgroundColor: COLORS.DARKBLUE,
         width: 140,
         borderRadius: 150,
         alignItems: "center",
@@ -68,7 +68,7 @@ export const styles = StyleSheet.create({
         width: 300,
         height: 300,
         borderRadius: 300,
-        backgroundColor: colors.BLUE,
+        backgroundColor: COLORS.BLUE,
         position: 'absolute',
         top: 260,
         zIndex: 0,
@@ -78,11 +78,11 @@ export const styles = StyleSheet.create({
         width: 300,
         height: 300,
         borderRadius: 300,
-        backgroundColor: colors.LIGHTBLUE,
+        backgroundColor: COLORS.LIGHTBLUE,
         position: 'absolute',
         bottom: 260,
         zIndex: 0,
-        borderColor: colors.DARKBLUE,
+        borderColor: COLORS.DARKBLUE,
         left: 0,
     },
 })

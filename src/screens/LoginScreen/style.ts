@@ -1,6 +1,6 @@
 import {StyleSheet} from "react-native";
-import {colors} from "../../../assets/colors/colors";
-import {fontFamily} from "../../../assets/fontFamily/fontFamily";
+import {COLORS} from "../../../constants/colors/colors";
+import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
 
 export const styles = StyleSheet.create({
     container: {
@@ -43,13 +43,13 @@ export const styles = StyleSheet.create({
         left: -120,
     },
     title: {
-        color: colors.DARKBLUE,
-        fontFamily: fontFamily.EXTRABOLD,
+        color: COLORS.DARKBLUE,
+        fontFamily: FONT_FAMILY.EXTRABOLD,
         fontSize: 60,
 
     },
     input: {
-        backgroundColor: colors.WHITE,
+        backgroundColor: COLORS.WHITE,
         borderRadius: 40,
         paddingLeft: 45,
         paddingRight: 10,
@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
         marginHorizontal: -20,
         fontSize: 20,
         letterSpacing: -1,
-        fontFamily: fontFamily.REGULAR,
+        fontFamily: FONT_FAMILY.REGULAR,
         flex: 1,
         marginVertical: 5
     },
@@ -69,14 +69,14 @@ export const styles = StyleSheet.create({
         left: 15,
     },
     loginText: {
-        fontFamily: fontFamily.REGULAR,
+        fontFamily: FONT_FAMILY.REGULAR,
         fontWeight: "900",
-        color: colors.WHITE,
+        color: COLORS.WHITE,
         fontSize: 24
     },
     loginButton: {
         position: "absolute",
-        backgroundColor: colors.DARKBLUE,
+        backgroundColor: COLORS.DARKBLUE,
         width: 160,
         bottom: 100,
         borderRadius: 150,
@@ -84,16 +84,16 @@ export const styles = StyleSheet.create({
         paddingVertical: 20,
         borderStyle: "dotted",
         borderWidth: 2,
-        borderColor: colors.WHITEBLUE
+        borderColor: COLORS.WHITEBLUE
     },
     signUpText: {
-        color: colors.DARKBLUE,
+        color: COLORS.DARKBLUE,
         fontSize: 14,
         marginBottom: 20,
         alignSelf: "center"
     },
     forgetText: {
-        color: colors.DARKBLUE,
+        color: COLORS.DARKBLUE,
         fontSize: 16,
         marginLeft: 45
     },
@@ -101,13 +101,13 @@ export const styles = StyleSheet.create({
         borderStyle: "dotted",
         borderWidth: 2,
         borderColor: "black",
-        fontFamily: fontFamily.EXTRABOLD,
+        fontFamily: FONT_FAMILY.EXTRABOLD,
         fontSize: 16,
 
     },
     error: {
         fontSize: 12,
-        fontFamily: fontFamily.REGULAR,
+        fontFamily: FONT_FAMILY.REGULAR,
         letterSpacing: -0.3,
         color: "red",
         marginLeft: 45
