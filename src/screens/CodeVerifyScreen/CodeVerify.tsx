@@ -10,7 +10,8 @@ import {AnimatedBackground} from "./AnimatedBackground";
 export const CodeVerify = () => {
     const [codeActual, setCode] = useState(["", "", "", ""])
     const navigation = useNavigation();
-    const {code} = useSelector((state: RootState) => state.user);
+    const selectCode = (state: RootState) => state.user.code;
+    const code = useSelector(selectCode);
     const inputs: React.RefObject<(TextInput | null)[]> = useRef([]);
 
     const submitHandler = () => {
@@ -23,6 +24,7 @@ export const CodeVerify = () => {
     }
 
     const handleChange = (text: string, index: number) => {
+        console.log(code)
         const newCodeValues = [...codeActual];
         newCodeValues[index] = text;
         setCode(newCodeValues);

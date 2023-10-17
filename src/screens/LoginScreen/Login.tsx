@@ -28,7 +28,10 @@ export const LoginScreen = () => {
         console.log(values.email)
         loginUser(values.email, values.password)(dispatch);
     };
-    const {error, isAuthenticated} = useSelector((state: RootState) => state.user);
+    const selectError = (state: RootState) => state.user.error;
+    const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
+    const error = useSelector(selectError);
+    const isAuthenticated = useSelector(selectIsAuthenticated);
 
     useEffect(() => {
         if (error) {

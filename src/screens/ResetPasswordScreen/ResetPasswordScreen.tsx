@@ -9,7 +9,8 @@ import {resetPasswordValidationScheme} from "./resetPasswordValidationScheme";
 import {RootState} from "../../redux/reducers/rootReducer";
 
 export const ResetPasswordScreen = () => {
-    const {email} = useSelector((state: RootState) => state.user);
+    const selectEmail = (state: RootState) => state.user.email;
+    const email = useSelector(selectEmail);
     const navigation = useNavigation();
     const handleSubmit = (values: { password: string, passwordRepeat: string }) => {
         console.log(values.password, email)

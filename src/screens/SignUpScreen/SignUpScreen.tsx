@@ -20,7 +20,10 @@ type Props = {
 export const SignUpScreen: React.FC<Props> = ({navigation}) => {
     const [avatar, setAvatar] = useState('');
     const dispatch = useDispatch();
-    const {error, isAuthenticated} = useSelector((state: RootState) => state.user);
+    const selectError = (state: RootState) => state.user.error;
+    const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
+    const error = useSelector(selectError);
+    const isAuthenticated = useSelector(selectIsAuthenticated);
 
     const uploadImage = () => {
         ImagePicker.openPicker({

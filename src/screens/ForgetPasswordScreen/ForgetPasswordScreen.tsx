@@ -16,7 +16,8 @@ export const ForgetPasswordScreen = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const [loading, setLoading] = useState<boolean>(false)
-    const {error} = useSelector((state: RootState) => state.user);
+    const selectError = (state: RootState) => state.user.error;
+    const error = useSelector(selectError);
 
     useEffect(() => {
         console.log(error)
