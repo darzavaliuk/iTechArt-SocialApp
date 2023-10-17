@@ -68,7 +68,7 @@ export const ResetPasswordScreen = () => {
                         }
                         <TouchableOpacity style={styles.loginButton}>
                             <Text style={styles.loginText} disabled={!isValid}
-                                  onPress={() => handleSubmit}>
+                                  onPress={handleSubmit}>
                                 Login
                             </Text>
                         </TouchableOpacity>

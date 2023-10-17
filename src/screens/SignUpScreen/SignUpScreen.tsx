@@ -156,7 +156,7 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
                                    }}
                             />
                         </TouchableOpacity>
-                        <TouchableOpacity disabled={!isValid} style={styles.loginButton} onPress={() => handleSubmit}>
+                        <TouchableOpacity disabled={!isValid} style={styles.loginButton} onPress={handleSubmit}>
                             <Text style={styles.loginText}>
                                 Sign Up
                             </Text>
