@@ -1,5 +1,5 @@
 import {Image, Text, TextInput, TouchableOpacity, View} from "react-native";
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {forgetPassword} from "../../redux/actions/forgetPassword";
 import {useNavigation} from "@react-navigation/native";
@@ -7,35 +7,38 @@ import {emailValidationSchema} from "../LoginScreen/validationScheme";
 import {Formik} from "formik";
 import {styles} from "./styles";
 import {Loader} from "../../components/Loader/Loader";
-import {displayErrorMessage} from "../../utils/displayMessage";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedText} from "./AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";
+import {resetError} from "../../redux/actions/resetError";
+import {displayErrorMessage} from "../../utils/displayMessage";
 
 export const ForgetPasswordScreen = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const [loading, setLoading] = useState<boolean>(false)
+    const selecLoading = (state: RootState) => state.user.loading;
+    const loading = useSelector(selecLoading);
+    const selectCode = (state: RootState) => state.user.code;
+    const code = useSelector(selectCode);
     const selectError = (state: RootState) => state.user.error;
     const error = useSelector(selectError);
 
     useEffect(() => {
-        console.log(error)
-        if (error) {
-            displayErrorMessage('Email not exist!')
+        resetError()(dispatch);
+    }, [])
+
+    useEffect(() => {
+        if (code) {
+            navigation.navigate('CodeVerify' as never)
         }
-    }, [error]);
+        if (error) {
+            displayErrorMessage(error)
+            console.log("here >> forget")
+        }
+    }, [code, dispatch, navigation]);
 
     const handleSubmit = (values: { email: string }) => {
-        setLoading(true)
-        console.log("submit")
-        console.log(values)
-        forgetPassword(values.email)(dispatch).then(() => {
-                setLoading(false);
-                if (!error)
-                    navigation.navigate('CodeVerify' as never)
-            }
-        )
+        forgetPassword(values.email)(dispatch)
     };
 
     return (

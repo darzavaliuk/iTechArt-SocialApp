@@ -23,21 +23,15 @@ const HomeScreen = () => {
                 barStyle={'dark-content'}
                 showHideTransition={'fade'}
             />
-            <>
-                {
-                    loading ? (
-                        <Loader/>
-                    ) : (
-                        <NavigationContainer>
-                            {isAuthenticated ? (
-                                <Main/>
-                            ) : (
-                                <Auth/>
-                            )}
-                        </NavigationContainer>
-                    )
-                }
-            </>
+
+            <NavigationContainer>
+                {isAuthenticated ? (
+                    <Main/>
+                ) : (
+                    <Auth/>
+                )}
+            </NavigationContainer>
+
         </>)
 };
 
