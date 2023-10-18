@@ -1,5 +1,5 @@
 import {Image, Text, TextInput, TouchableOpacity, View} from "react-native";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {loadUser} from "../../redux/actions/loadUser";
 import {useDispatch, useSelector} from "react-redux";
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
@@ -9,10 +9,12 @@ import {Easing, useSharedValue, withTiming} from "react-native-reanimated";
 import {styles} from "./style";
 import {signUpValidationSchema} from "./signUpValidationScheme";
 import {RootState} from "../../redux/reducers/rootReducer";
-import {NavigationProp} from "@react-navigation/native";
+import {NavigationProp, useFocusEffect} from "@react-navigation/native";
 import {displayErrorMessage} from "../../utils/displayMessage";
 import {AnimatedText} from "../LoginScreen/AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";
+import {Loader} from "../../components/Loader/Loader";
+import {resetError} from "../../redux/actions/resetError";
 
 type Props = {
     navigation: NavigationProp<string>;
@@ -24,6 +26,8 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
     const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
     const error = useSelector(selectError);
     const isAuthenticated = useSelector(selectIsAuthenticated);
+    const selecLoading = (state: RootState) => state.user.loading;
+    const loading = useSelector(selecLoading);
 
     const uploadImage = () => {
         ImagePicker.openPicker({
@@ -41,14 +45,27 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
         });
     };
 
-    useEffect(() => {
-        if (error) {
-            displayErrorMessage(error)
-        }
-        if (isAuthenticated) {
-            loadUser()(dispatch);
-        }
-    }, [error, isAuthenticated]);
+    useFocusEffect(
+        useCallback(() => {
+            console.log("here >> sign up")
+            if (error) {
+                displayErrorMessage(error)
+            }
+            if (isAuthenticated) {
+                loadUser()(dispatch);
+            }
+
+        }, [error, isAuthenticated])
+    );
+
+    // useEffect(() => {
+    //     if (error) {
+    //         displayErrorMessage(error)
+    //     }
+    //     if (isAuthenticated) {
+    //         loadUser()(dispatch);
+    //     }
+    // }, [error, isAuthenticated]);
 
     const handleSubmit = (values: { name: string, email: string, password: string }) => {
         if (avatar === '' || values.name === '' || values.email === '') {
@@ -73,105 +90,116 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
 
 
     return (
-        <View style={styles.wrapper}>
-            <AnimatedBackground/>
-            <Formik
-                validationSchema={signUpValidationSchema}
-                initialValues={{email: '', password: '', name: '', passwordRepeat: ""}}
-                onSubmit={handleSubmit}
-            >
-                {({
-                      handleChange,
-                      handleBlur,
-                      handleSubmit,
-                      values,
-                      errors,
-                      isValid,
-                  }) => (<>
-                    <View style={styles.container}>
-                        <AnimatedText text={"Sign Up"} typingSpeed={200}/>
-                        <View style={{display: "flex", flexDirection: "row"}}>
-                            <Image source={require("../../../assets/images/mail.png")} style={styles.image}/>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Email"
-                                id="email"
-                                onChangeText={handleChange('email')}
-                                onBlur={handleBlur('email')}
-                                value={values.email}
-                                keyboardType="email-address"
-                            />
-                        </View>
-                        {errors.email &&
-                            <Text style={styles.error}>{errors.email}</Text>
-                        }
-                        <View style={{display: "flex", flexDirection: "row"}}>
-                            <Image source={require("../../../assets/images/user.png")} style={styles.image}/>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Name"
-                                id="name"
-                                onChangeText={handleChange('name')}
-                                onBlur={handleBlur('name')}
-                                value={values.name}
-                                keyboardType="default"
-                            />
-                        </View>
-                        {errors.name &&
-                            <Text style={styles.error}>{errors.name}</Text>
-                        }
-                        <View style={{display: "flex", flexDirection: "row"}}>
-                            <Image source={require("../../../assets/images/password.png")} style={styles.image}/>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Password"
-                                id="password"
-                                onChangeText={handleChange('password')}
-                                onBlur={handleBlur('password')}
-                                value={values.password}
-                                keyboardType="visible-password"
-                            />
-                        </View>
-                        {errors.password &&
-                            <Text style={styles.error}>{errors.password}</Text>
-                        }
-                        <View style={{display: "flex", flexDirection: "row"}}>
-                            <Image source={require("../../../assets/images/password.png")} style={styles.image}/>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Repeat password"
-                                id="passwordRepeat"
-                                onChangeText={handleChange('passwordRepeat')}
-                                onBlur={handleBlur('passwordRepeat')}
-                                value={values.passwordRepeat}
-                            />
-                        </View>
-                        {errors.passwordRepeat &&
-                            <Text style={styles.error}>{errors.passwordRepeat}</Text>
-                        }
-                        <TouchableOpacity
-                            onPress={uploadImage}>
-                            <Image style={{width: 80, height: 80}}
-                                   source={{
-                                       uri: avatar
-                                           ? avatar
-                                           : 'https://cdn-icons-png.flaticon.com/128/568/568717.png',
-                                   }}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity disabled={!isValid} style={styles.loginButton} onPress={handleSubmit}>
-                            <Text style={styles.loginText}>
-                                Sign Up
-                            </Text>
-                        </TouchableOpacity>
+        <>
+            {
+                loading ? (
+                    <Loader/>
+                ) : (
+                    <View style={styles.wrapper}>
+                        <AnimatedBackground/>
+                        <Formik
+                            validationSchema={signUpValidationSchema}
+                            initialValues={{email: '', password: '', name: '', passwordRepeat: ""}}
+                            onSubmit={handleSubmit}
+                        >
+                            {({
+                                  handleChange,
+                                  handleBlur,
+                                  handleSubmit,
+                                  values,
+                                  errors,
+                                  isValid,
+                              }) => (<>
+                                <View style={styles.container}>
+                                    <AnimatedText text={"Sign Up"} typingSpeed={200}/>
+                                    <View style={{display: "flex", flexDirection: "row"}}>
+                                        <Image source={require("../../../assets/images/mail.png")}
+                                               style={styles.image}/>
+                                        <TextInput
+                                            style={styles.input}
+                                            placeholder="Email"
+                                            id="email"
+                                            onChangeText={handleChange('email')}
+                                            onBlur={handleBlur('email')}
+                                            value={values.email}
+                                            keyboardType="email-address"
+                                        />
+                                    </View>
+                                    {errors.email &&
+                                        <Text style={styles.error}>{errors.email}</Text>
+                                    }
+                                    <View style={{display: "flex", flexDirection: "row"}}>
+                                        <Image source={require("../../../assets/images/user.png")}
+                                               style={styles.image}/>
+                                        <TextInput
+                                            style={styles.input}
+                                            placeholder="Name"
+                                            id="name"
+                                            onChangeText={handleChange('name')}
+                                            onBlur={handleBlur('name')}
+                                            value={values.name}
+                                            keyboardType="default"
+                                        />
+                                    </View>
+                                    {errors.name &&
+                                        <Text style={styles.error}>{errors.name}</Text>
+                                    }
+                                    <View style={{display: "flex", flexDirection: "row"}}>
+                                        <Image source={require("../../../assets/images/password.png")}
+                                               style={styles.image}/>
+                                        <TextInput
+                                            style={styles.input}
+                                            placeholder="Password"
+                                            id="password"
+                                            onChangeText={handleChange('password')}
+                                            onBlur={handleBlur('password')}
+                                            value={values.password}
+                                            keyboardType="visible-password"
+                                        />
+                                    </View>
+                                    {errors.password &&
+                                        <Text style={styles.error}>{errors.password}</Text>
+                                    }
+                                    <View style={{display: "flex", flexDirection: "row"}}>
+                                        <Image source={require("../../../assets/images/password.png")}
+                                               style={styles.image}/>
+                                        <TextInput
+                                            style={styles.input}
+                                            placeholder="Repeat password"
+                                            id="passwordRepeat"
+                                            onChangeText={handleChange('passwordRepeat')}
+                                            onBlur={handleBlur('passwordRepeat')}
+                                            value={values.passwordRepeat}
+                                        />
+                                    </View>
+                                    {errors.passwordRepeat &&
+                                        <Text style={styles.error}>{errors.passwordRepeat}</Text>
+                                    }
+                                    <TouchableOpacity
+                                        onPress={uploadImage}>
+                                        <Image style={{width: 80, height: 80}}
+                                               source={{
+                                                   uri: avatar
+                                                       ? avatar
+                                                       : 'https://cdn-icons-png.flaticon.com/128/568/568717.png',
+                                               }}
+                                        />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity disabled={!isValid} style={styles.loginButton}
+                                                      onPress={handleSubmit}>
+                                        <Text style={styles.loginText}>
+                                            Sign Up
+                                        </Text>
+                                    </TouchableOpacity>
 
-                    </View>
-                </>)}
-            </Formik>
-            <Text style={styles.signUpText}
-                  onPress={() => navigation.navigate('Login' as never)}>
-                Already have an account? <Text style={styles.signUpButton}>Sign in</Text>
-            </Text>
-        </View>
+                                </View>
+                            </>)}
+                        </Formik>
+                        <Text style={styles.signUpText}
+                              onPress={() => navigation.navigate('Login' as never)}>
+                            Already have an account? <Text style={styles.signUpButton}>Sign in</Text>
+                        </Text>
+                    </View>)}
+        </>
     )
 }

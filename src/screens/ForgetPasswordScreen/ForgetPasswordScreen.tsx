@@ -1,8 +1,8 @@
 import {Image, Text, TextInput, TouchableOpacity, View} from "react-native";
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {forgetPassword} from "../../redux/actions/forgetPassword";
-import {useNavigation} from "@react-navigation/native";
+import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import {emailValidationSchema} from "../LoginScreen/validationScheme";
 import {Formik} from "formik";
 import {styles} from "./styles";
@@ -23,19 +23,41 @@ export const ForgetPasswordScreen = () => {
     const selectError = (state: RootState) => state.user.error;
     const error = useSelector(selectError);
 
-    useEffect(() => {
-        resetError()(dispatch);
-    }, [])
+    // useEffect(() => {
+    //     resetError()(dispatch);
+    // }, [])
 
-    useEffect(() => {
-        if (code) {
-            navigation.navigate('CodeVerify' as never)
-        }
-        if (error) {
-            displayErrorMessage(error)
+    // useFocusEffect(
+    //     useCallback(() => {
+    //         console.log("here >> forget >> resetError")
+    //         resetError()(dispatch);
+    //     }, [])
+    // );
+
+    useFocusEffect(
+        useCallback(() => {
             console.log("here >> forget")
-        }
-    }, [code, dispatch, navigation]);
+            if (code) {
+                navigation.navigate('CodeVerify' as never)
+            }
+            if (error) {
+                displayErrorMessage(error)
+                console.log("here >> forget >> error")
+                resetError()(dispatch);
+            }
+
+        }, [code, error])
+    );
+
+    // useFocusEffect(() => {
+    //     if (code) {
+    //         navigation.navigate('CodeVerify' as never)
+    //     }
+    //     if (error) {
+    //         displayErrorMessage(error)
+    //         console.log("here >> forget")
+    //     }
+    // }, []);
 
     const handleSubmit = (values: { email: string }) => {
         forgetPassword(values.email)(dispatch)

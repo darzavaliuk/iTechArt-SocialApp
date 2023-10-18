@@ -5,11 +5,11 @@ import {
     TouchableOpacity,
     Image,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {loginUser} from "../../redux/actions/loginAction";
 import {loadUser} from "../../redux/actions/loadUser";
-import {useNavigation} from "@react-navigation/native";
+import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import {Formik} from "formik";
 import {styles} from "./style";
 import {loginValidationSchema} from "./validationScheme";
@@ -36,16 +36,37 @@ export const LoginScreen = () => {
     const selecLoading = (state: RootState) => state.user.loading;
     const loading = useSelector(selecLoading);
 
-    useEffect(() => {
-        console.log("here >> loginScreen")
-        if (error) {
-            displayErrorMessage(error)
-        }
-        if (isAuthenticated) {
-            loadUser()(dispatch);
-            displayErrorMessage('Login successful!')
-        }
-    }, [isAuthenticated, error, dispatch]);
+    // useEffect(() => {
+    //     console.log("here >> loginScreen")
+    //     if (error) {
+    //         displayErrorMessage(error)
+    //     }
+    //     if (isAuthenticated) {
+    //         loadUser()(dispatch);
+    //         displayErrorMessage('Login successful!')
+    //     }
+    // }, [isAuthenticated, error, dispatch]);
+
+    // useFocusEffect(
+    //     useCallback(() => {
+    //         console.log("here >> login >> resetError")
+    //         resetError()(dispatch);
+    //     }, [])
+    // );
+
+    useFocusEffect(
+        useCallback(() => {
+            console.log("here >> loginScreen")
+            if (error) {
+                displayErrorMessage(error)
+                resetError()(dispatch);
+            }
+            if (isAuthenticated) {
+                loadUser()(dispatch);
+                displayErrorMessage('Login successful!')
+            }
+        }, [isAuthenticated, error, dispatch, navigation])
+    );
 
     return (
         <View style={{flex: 1, backgroundColor: COLORS.WHITEBLUE}}>
