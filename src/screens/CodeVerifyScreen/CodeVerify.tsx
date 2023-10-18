@@ -3,7 +3,7 @@ import React, {useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import {useNavigation} from "@react-navigation/native";
 import {styles} from "./style";
-import {displayErrorMessage} from "../../utils/displayMessage";
+import {displayMessage} from "../../utils/displayMessage";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedBackground} from "./AnimatedBackground";
 
@@ -19,7 +19,7 @@ export const CodeVerify = () => {
         if (codeActual.join("") === code) {
             navigation.navigate('ResetPassword' as never)
         } else {
-            displayErrorMessage('Code not match!')
+            displayMessage('Code not match!')
         }
     }
 

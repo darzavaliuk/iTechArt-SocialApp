@@ -10,7 +10,7 @@ import {styles} from "./style";
 import {signUpValidationSchema} from "./signUpValidationScheme";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {NavigationProp, useFocusEffect} from "@react-navigation/native";
-import {displayErrorMessage} from "../../utils/displayMessage";
+import {displayMessage} from "../../utils/displayMessage";
 import {AnimatedText} from "../LoginScreen/AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";
 import {Loader} from "../../components/Loader/Loader";
@@ -49,7 +49,7 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
         useCallback(() => {
             console.log("here >> sign up")
             if (error) {
-                displayErrorMessage(error)
+                displayMessage(error)
             }
             if (isAuthenticated) {
                 loadUser()(dispatch);
@@ -69,7 +69,7 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
 
     const handleSubmit = (values: { name: string, email: string, password: string }) => {
         if (avatar === '' || values.name === '' || values.email === '') {
-            displayErrorMessage('Please fill the all fields and upload avatar')
+            displayMessage('Please fill the all fields and upload avatar')
         } else {
             registerUser(values.name!, values.email!, values.password!, avatar!)(dispatch);
         }

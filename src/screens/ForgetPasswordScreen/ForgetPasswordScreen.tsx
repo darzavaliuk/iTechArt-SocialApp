@@ -11,7 +11,7 @@ import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedText} from "./AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";
 import {resetError} from "../../redux/actions/resetError";
-import {displayErrorMessage} from "../../utils/displayMessage";
+import {displayMessage} from "../../utils/displayMessage";
 
 export const ForgetPasswordScreen = () => {
     const dispatch = useDispatch();
@@ -41,7 +41,7 @@ export const ForgetPasswordScreen = () => {
                 navigation.navigate('CodeVerify' as never)
             }
             if (error) {
-                displayErrorMessage(error)
+                displayMessage(error)
                 console.log("here >> forget >> error")
                 resetError()(dispatch);
             }

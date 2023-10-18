@@ -7,7 +7,7 @@ import {Formik} from "formik";
 import {styles} from "./style";
 import {resetPasswordValidationScheme} from "./resetPasswordValidationScheme";
 import {RootState} from "../../redux/reducers/rootReducer";
-import {displayErrorMessage} from "../../utils/displayMessage";
+import {displayMessage} from "../../utils/displayMessage";
 import {resetError} from "../../redux/actions/resetError";
 import {Loader} from "../../components/Loader/Loader";
 
@@ -37,7 +37,7 @@ export const ResetPasswordScreen = () => {
             //     navigation.navigate('Login' as never)
             // }
             if (error) {
-                displayErrorMessage(error)
+                displayMessage(error)
                 console.log("here >> forget >> error")
                 resetError()(dispatch);
             }

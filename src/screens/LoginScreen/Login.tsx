@@ -15,7 +15,7 @@ import {styles} from "./style";
 import {loginValidationSchema} from "./validationScheme";
 import Animated from 'react-native-reanimated';
 import {resetError} from "../../redux/actions/resetError";
-import {displayErrorMessage} from "../../utils/displayMessage";
+import {displayMessage} from "../../utils/displayMessage";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedText} from "./AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";
@@ -58,12 +58,12 @@ export const LoginScreen = () => {
         useCallback(() => {
             console.log("here >> loginScreen")
             if (error) {
-                displayErrorMessage(error)
+                displayMessage(error)
                 resetError()(dispatch);
             }
             if (isAuthenticated) {
                 loadUser()(dispatch);
-                displayErrorMessage('Login successful!')
+                displayMessage('Login successful!')
             }
         }, [isAuthenticated, error, dispatch, navigation])
     );
