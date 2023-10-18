@@ -1,28 +1,22 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {URI} from "../../URI";
-import axios, {AxiosError} from "axios";
-import {Dispatch} from "react";
-import {ActionType} from "typesafe-actions";
+import { URI } from "../../URI";
+import axios, { AxiosError } from "axios";
+import { Dispatch } from "react";
+import { createAction } from "@reduxjs/toolkit";
 import * as types from "../actionTypes/actionTypes";
-import {createAction} from "redux-actions";
-import {setToken} from "../../utils/setToken";
+import { setToken } from "../../utils/setToken";
 
 type ResetPasswordSuccessPayload = { user: any };
 type ResetPasswordFailedPayload = { error: string };
 
 const registerUserRequest = createAction(types.REGISTER_USER_REQUEST);
-const registerUserSuccess = createAction<ResetPasswordSuccessPayload>(
-    types.REGISTER_USER_SUCCESS
-);
-const registerUserFailed = createAction<ResetPasswordFailedPayload>(
-    types.REGISTER_USER_FAILED
-);
+const registerUserSuccess = createAction<ResetPasswordSuccessPayload>(types.REGISTER_USER_SUCCESS);
+const registerUserFailed = createAction<ResetPasswordFailedPayload>(types.REGISTER_USER_FAILED);
 
 type RegisterUserAction =
-    | ActionType<typeof registerUserRequest>
-    | ActionType<typeof registerUserSuccess>
-    | ActionType<typeof registerUserFailed>;
-
+    | ReturnType<typeof registerUserRequest>
+    | ReturnType<typeof registerUserSuccess>
+    | ReturnType<typeof registerUserFailed>;
 
 export const registerUser = (
     name: string,
@@ -33,26 +27,23 @@ export const registerUser = (
     try {
         dispatch(registerUserRequest());
 
-        const config = {headers: {"Content-Type": "application/json"}};
+        const config = { headers: { "Content-Type": "application/json" } };
 
-        const {data} = await axios.post(
+        const { data } = await axios.post(
             `${URI}/registration`,
-            {name, email, password, avatar},
+            { name, email, password, avatar },
             config
         );
 
-        dispatch(registerUserSuccess(data.user));
+        dispatch(registerUserSuccess({ user: data.user }));
 
         await AsyncStorage.setItem("token", data.token);
-        setToken(data.token).catch((error) => dispatch(
-            registerUserFailed(
-                {error: (error as AxiosError<{ message: string }>)?.response?.data?.message || "Unexpected error"})
-        ))
+        try {
+            await setToken(data.token);
+        } catch (error) {
+            dispatch(registerUserFailed({ error: (error as AxiosError<{ message: string }>)?.response?.data?.message || "Unexpected error" }));
+        }
     } catch (error) {
-        dispatch(
-            registerUserFailed(
-                {error: (error as AxiosError<{ message: string }>)?.response?.data?.message || "Unexpected error"})
-        );
+        dispatch(registerUserFailed({ error: (error as AxiosError<{ message: string }>)?.response?.data?.message || "Unexpected error" }));
     }
 };
-

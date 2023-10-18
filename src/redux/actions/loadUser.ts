@@ -1,7 +1,7 @@
-import { Dispatch } from "react";
-import axios, { AxiosError } from "axios";
-import { URI } from "../../URI";
-import { createAction, ActionType } from "typesafe-actions";
+import {Dispatch} from "react";
+import axios, {AxiosError} from "axios";
+import {URI} from "../../URI";
+import {createAction} from "@reduxjs/toolkit";
 import {
     LOAD_USER_FAILED,
     LOAD_USER_REQUEST,
@@ -9,34 +9,42 @@ import {
 } from "../actionTypes/actionTypes";
 import {getToken} from "../../utils/getToken";
 
-const loadUserRequest = createAction(LOAD_USER_REQUEST)();
-const loadUserSuccess = createAction(LOAD_USER_SUCCESS)<{ user: string, token: string | undefined }>();
-const loadUserFailed = createAction(LOAD_USER_FAILED)<string>();
+const loadUserRequest = createAction(LOAD_USER_REQUEST);
+const loadUserSuccess = createAction<{
+    user: string,
+    token: string | undefined
+}, typeof LOAD_USER_SUCCESS>(LOAD_USER_SUCCESS);
+const loadUserFailed = createAction<string, typeof LOAD_USER_FAILED>(LOAD_USER_FAILED);
 
 type LoadUserAction =
-    | ActionType<typeof loadUserRequest>
-    | ActionType<typeof loadUserSuccess>
-    | ActionType<typeof loadUserFailed>;
+    | ReturnType<typeof loadUserRequest>
+    | ReturnType<typeof loadUserSuccess>
+    | ReturnType<typeof loadUserFailed>;
 
 export const loadUser = () => async (dispatch: Dispatch<LoadUserAction>) => {
     try {
         dispatch(loadUserRequest());
 
-        let token = "";
+        let token: string | undefined = "";
 
-        getToken().then((token) => {
-            const tokenString: string | undefined = token;
-            console.log(tokenString);
-        }).catch((error) => {
-            dispatch(loadUserFailed((error as AxiosError<{ message: string }>)?.response?.data?.message || "Unexpected error"));
+        try {
+            token = await getToken();
+            console.log(token);
+        } catch (error) {
+            dispatch(loadUserFailed((error as AxiosError<{
+                message: string
+            }>)?.response?.data?.message || "Unexpected error"));
+            return;
+        }
+
+        const {data} = await axios.get(`${URI}/me`, {
+            headers: {Authorization: `Bearer ${token}`},
         });
 
-        const { data } = await axios.get(`${URI}/me`, {
-            headers: { Authorization: `Bearer ${token}` },
-        });
-
-        dispatch(loadUserSuccess({ user: data.user, token }));
+        dispatch(loadUserSuccess({user: data.user, token}));
     } catch (error: unknown) {
-        dispatch(loadUserFailed((error as AxiosError<{ message: string }>)?.response?.data?.message || "Unexpected error"));
+        dispatch(loadUserFailed((error as AxiosError<{
+            message: string
+        }>)?.response?.data?.message || "Unexpected error"));
     }
 };
