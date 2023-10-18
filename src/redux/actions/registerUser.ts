@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { URI } from "../../URI";
 import axios, { AxiosError } from "axios";
-import { Dispatch } from "react";
+import { Dispatch } from "redux";
 import { createAction } from "@reduxjs/toolkit";
 import * as types from "../actionTypes/actionTypes";
 import { setToken } from "../../utils/setToken";

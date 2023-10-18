@@ -1,7 +1,7 @@
 import { createAction } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import { URI } from "../../URI";
-import { Dispatch } from "react";
+import { Dispatch } from "redux";
 import * as types from "../actionTypes/actionTypes";
 
 type ResetPasswordRequestPayload = void;

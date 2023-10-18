@@ -1,4 +1,4 @@
-import { Dispatch } from "react";
+import { Dispatch } from "redux";
 import { createAction } from "@reduxjs/toolkit";
 import * as types from "../actionTypes/actionTypes";
 

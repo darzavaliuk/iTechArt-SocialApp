@@ -1,4 +1,4 @@
-import {Dispatch} from "react";
+import {Dispatch} from "redux";
 import axios, {AxiosError} from "axios";
 import {URI} from "../../URI";
 import {createAction} from "@reduxjs/toolkit";
@@ -16,7 +16,7 @@ const loadUserSuccess = createAction<{
 }, typeof LOAD_USER_SUCCESS>(LOAD_USER_SUCCESS);
 const loadUserFailed = createAction<string, typeof LOAD_USER_FAILED>(LOAD_USER_FAILED);
 
-type LoadUserAction =
+export type LoadUserAction =
     | ReturnType<typeof loadUserRequest>
     | ReturnType<typeof loadUserSuccess>
     | ReturnType<typeof loadUserFailed>;
@@ -40,7 +40,7 @@ export const loadUser = () => async (dispatch: Dispatch<LoadUserAction>) => {
         const {data} = await axios.get(`${URI}/me`, {
             headers: {Authorization: `Bearer ${token}`},
         });
-
+        console.log(token);
         dispatch(loadUserSuccess({user: data.user, token}));
     } catch (error: unknown) {
         dispatch(loadUserFailed((error as AxiosError<{

@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { Dispatch } from "react";
+import { Dispatch } from "redux";
 import { URI } from "../../URI";
 import { createAction } from "@reduxjs/toolkit";
 import {
@@ -30,6 +30,7 @@ export const loginUser = (email: string, password: string) => async (dispatch: D
 
         if (data.token) {
             try {
+                console.log(data.token)
                 await setToken(data.token);
             } catch (error) {
                 dispatch(loginUserFailed((error as AxiosError<{ message: string }>)?.response?.data?.message || "Unexpected error"));
