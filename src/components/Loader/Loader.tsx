@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
     loader: {
         alignSelf: "center",
         justifyContent: "center",
-        alignItems: "center", flex: 1
+        alignItems: "center",
+        flex: 1
     }
 })

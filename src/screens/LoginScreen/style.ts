@@ -9,6 +9,10 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         paddingHorizontal: 20,
     },
+    wrapper: {
+        flex: 1,
+        backgroundColor: COLORS.WHITEBLUE
+    },
     circleLittle: {
         width: 200,
         height: 200,

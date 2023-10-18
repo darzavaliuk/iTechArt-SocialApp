@@ -3,7 +3,6 @@ import {StatusBar} from 'react-native';
 import {NavigationContainer} from "@react-navigation/native";
 import {useSelector} from 'react-redux';
 import Auth from "./Auth";
-import {Loader} from "../components/Loader/Loader";
 import {Main} from "./Main";
 import {loadUser} from "../redux/actions/loadUser";
 import Store from "../redux/store";

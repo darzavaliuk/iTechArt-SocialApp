@@ -32,10 +32,6 @@ export const ResetPasswordScreen = () => {
 
     useFocusEffect(
         useCallback(() => {
-            console.log("here >> forget")
-            // if (code) {
-            //     navigation.navigate('Login' as never)
-            // }
             if (error) {
                 displayMessage(error)
                 console.log("here >> forget >> error")

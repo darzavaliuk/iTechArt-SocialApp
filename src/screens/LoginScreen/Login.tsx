@@ -26,37 +26,17 @@ export const LoginScreen = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const handleSubmit = (values: { email: string, password: string }) => {
-        console.log(values.email)
         loginUser(values.email, values.password)(dispatch);
     };
     const selectError = (state: RootState) => state.user.error;
     const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
     const error = useSelector(selectError);
     const isAuthenticated = useSelector(selectIsAuthenticated);
-    const selecLoading = (state: RootState) => state.user.loading;
-    const loading = useSelector(selecLoading);
-
-    // useEffect(() => {
-    //     console.log("here >> loginScreen")
-    //     if (error) {
-    //         displayErrorMessage(error)
-    //     }
-    //     if (isAuthenticated) {
-    //         loadUser()(dispatch);
-    //         displayErrorMessage('Login successful!')
-    //     }
-    // }, [isAuthenticated, error, dispatch]);
-
-    // useFocusEffect(
-    //     useCallback(() => {
-    //         console.log("here >> login >> resetError")
-    //         resetError()(dispatch);
-    //     }, [])
-    // );
+    const selectLoading = (state: RootState) => state.user.loading;
+    const loading = useSelector(selectLoading);
 
     useFocusEffect(
         useCallback(() => {
-            console.log("here >> loginScreen")
             if (error) {
                 displayMessage(error)
                 resetError()(dispatch);
@@ -69,7 +49,7 @@ export const LoginScreen = () => {
     );
 
     return (
-        <View style={{flex: 1, backgroundColor: COLORS.WHITEBLUE}}>
+        <View style={styles.wrapper}>
             {/*<Toast ref={toastRef}/>*/}
             {
                 loading ? (

@@ -1,11 +1,4 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {
-    LOAD_USER_REQUEST,
-    LOGIN_USER_REQUEST,
-    REGISTER_USER_REQUEST,
-    RESET_ERROR,
-    RESET_PASSWORD_REQUEST
-} from "../actionTypes/actionTypes";
 
 const initialState = {
     isAuthenticated: false,
@@ -92,30 +85,26 @@ export const userReducer = createReducer(initialState, {
         state.error = action.payload;
         state.loading = false;
     },
-    userLogoutRequest: state => {
+    LOGOUT_USER_REQUEST: state => {
         state.loading = true;
     },
-    userLogoutSuccess: state => {
+    LOGOUT_USER_SUCCESS: state => {
         state.loading = false;
         state.isAuthenticated = false;
         state.user = {};
     },
-    userLogoutFailed: state => {
+    LOGOUT_USER_FAILED: state => {
         state.loading = false;
     },
-    getUsersRequest: state => {
+    GET_USERS_REQUEST: state => {
         state.isLoading = true;
     },
-    getUsersSuccess: (state, action) => {
+    GET_USERS_SUCCESS: (state, action) => {
         state.isLoading = false;
         state.users = action.payload;
     },
-    getUsersFailed: (state, action) => {
+    GET_USERS_FAILED: (state, action) => {
         state.isLoading = false;
         state.users = action.payload;
-    },
-    clearErrors: state => {
-        state.error = null;
-        state.isAuthenticated = false;
-    },
+    }
 });

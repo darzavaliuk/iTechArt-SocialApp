@@ -14,7 +14,6 @@ import {displayMessage} from "../../utils/displayMessage";
 import {AnimatedText} from "../LoginScreen/AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";
 import {Loader} from "../../components/Loader/Loader";
-import {resetError} from "../../redux/actions/resetError";
 
 type Props = {
     navigation: NavigationProp<string>;
@@ -26,8 +25,8 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
     const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
     const error = useSelector(selectError);
     const isAuthenticated = useSelector(selectIsAuthenticated);
-    const selecLoading = (state: RootState) => state.user.loading;
-    const loading = useSelector(selecLoading);
+    const selectLoading = (state: RootState) => state.user.loading;
+    const loading = useSelector(selectLoading);
 
     const uploadImage = () => {
         ImagePicker.openPicker({
@@ -58,15 +57,6 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
         }, [error, isAuthenticated])
     );
 
-    // useEffect(() => {
-    //     if (error) {
-    //         displayErrorMessage(error)
-    //     }
-    //     if (isAuthenticated) {
-    //         loadUser()(dispatch);
-    //     }
-    // }, [error, isAuthenticated]);
-
     const handleSubmit = (values: { name: string, email: string, password: string }) => {
         if (avatar === '' || values.name === '' || values.email === '') {
             displayMessage('Please fill the all fields and upload avatar')
@@ -87,7 +77,6 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
             easing: Easing.linear,
         });
     };
-
 
     return (
         <>

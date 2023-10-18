@@ -15,16 +15,16 @@ export const CodeVerify = () => {
     const inputs: React.RefObject<(TextInput | null)[]> = useRef([]);
 
     const submitHandler = () => {
-        console.log(codeActual, code)
-        if (codeActual.join("") === code) {
-            navigation.navigate('ResetPassword' as never)
+        const isCodeMatch = codeActual.join("") === code;
+
+        if (isCodeMatch) {
+            navigation.navigate('ResetPassword' as never);
         } else {
-            displayMessage('Code not match!')
+            displayMessage('Code does not match!');
         }
-    }
+    };
 
     const handleChange = (text: string, index: number) => {
-        console.log(code)
         const newCodeValues = [...codeActual];
         newCodeValues[index] = text;
         setCode(newCodeValues);
