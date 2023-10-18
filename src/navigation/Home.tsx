@@ -6,9 +6,11 @@ import Auth from "./Auth";
 import {Main} from "./Main";
 import {loadUser} from "../redux/actions/loadUser";
 import Store from "../redux/store";
+import {RootState} from "../redux/reducers/rootReducer";
 
 const HomeScreen = () => {
-    const {isAuthenticated, loading} = useSelector((state: any) => state.user);
+    const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
+    const isAuthenticated = useSelector(selectIsAuthenticated);
 
     useEffect(() => {
         Store.dispatch(loadUser());
