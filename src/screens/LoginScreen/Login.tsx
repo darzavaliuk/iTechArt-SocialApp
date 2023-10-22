@@ -3,7 +3,7 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    Image,
+    Image, StyleSheet,
 } from 'react-native';
 import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -11,7 +11,6 @@ import {loginUser} from "../../redux/actions/loginAction";
 import {loadUser} from "../../redux/actions/loadUser";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import {Formik} from "formik";
-import {styles} from "./style";
 import {loginValidationSchema} from "./validationScheme";
 import Animated from 'react-native-reanimated';
 import {displayMessage} from "../../utils/displayMessage";
@@ -20,6 +19,8 @@ import {AnimatedText} from "./AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";
 import {Loader} from "../../components/Loader/Loader";
 import {resetErrorRequest} from "../../redux/actions/resetError";
+import {COLORS} from "../../../constants/colors/colors";
+import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
 
 const selectError = (state: RootState) => state.user.error;
 const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
@@ -131,5 +132,82 @@ export const LoginScreen = () => {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: "center",
+        flexDirection: "row",
+        paddingHorizontal: 20,
+    },
+    wrapper: {
+        flex: 1,
+        backgroundColor: COLORS.WHITEBLUE
+    },
+    input: {
+        backgroundColor: COLORS.WHITE,
+        borderRadius: 40,
+        paddingLeft: 45,
+        paddingRight: 10,
+        marginRight: 0,
+        marginHorizontal: -20,
+        fontSize: 20,
+        letterSpacing: -1,
+        fontFamily: FONT_FAMILY.REGULAR,
+        flex: 1,
+        marginVertical: 5
+    },
+    image: {
+        height: 20,
+        width: 20,
+        zIndex: 100,
+        top: 18,
+        left: 15,
+    },
+    loginText: {
+        fontFamily: FONT_FAMILY.REGULAR,
+        fontWeight: "900",
+        color: COLORS.WHITE,
+        fontSize: 24
+    },
+    loginButton: {
+        position: "absolute",
+        backgroundColor: COLORS.DARKBLUE,
+        width: 160,
+        bottom: 100,
+        borderRadius: 150,
+        alignItems: "center",
+        paddingVertical: 20,
+        borderStyle: "dotted",
+        borderWidth: 2,
+        borderColor: COLORS.WHITEBLUE
+    },
+    signUpText: {
+        color: COLORS.DARKBLUE,
+        fontSize: 14,
+        marginBottom: 20,
+        alignSelf: "center"
+    },
+    forgetText: {
+        color: COLORS.DARKBLUE,
+        fontSize: 16,
+        marginLeft: 45
+    },
+    signUpButton: {
+        borderStyle: "dotted",
+        borderWidth: 2,
+        borderColor: "black",
+        fontFamily: FONT_FAMILY.EXTRABOLD,
+        fontSize: 16,
+
+    },
+    error: {
+        fontSize: 12,
+        fontFamily: FONT_FAMILY.REGULAR,
+        letterSpacing: -0.3,
+        color: "red",
+        marginLeft: 45
+    }
+})
 
 

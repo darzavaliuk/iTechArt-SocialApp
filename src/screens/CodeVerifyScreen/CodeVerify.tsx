@@ -1,11 +1,13 @@
-import {Text, TextInput, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import React, {useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import {useNavigation} from "@react-navigation/native";
-import {styles} from "./style";
 import {displayMessage} from "../../utils/displayMessage";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedBackground} from "./AnimatedBackground";
+import {COLORS} from "../../../constants/colors/colors";
+import {FONT_SIZES} from "../../../constants/fontSizes/fontSizes";
+import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
 
 const selectCode = (state: RootState) => state.user.code;
 
@@ -63,3 +65,67 @@ export const CodeVerify = () => {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: COLORS.WHITEBLUE
+    },
+    content: {
+        flex: 1,
+        justifyContent: "center"
+    },
+    codeView: {
+        flexDirection: "row",
+        justifyContent: "center"
+    },
+    code: {
+        backgroundColor: COLORS.WHITE,
+        fontSize: FONT_SIZES.SUBTITLE,
+        letterSpacing: -1,
+        fontFamily: FONT_FAMILY.REGULAR,
+        marginVertical: 5,
+        margin: 5,
+        borderRadius: 20,
+        width: 60,
+        textAlign: "center",
+        borderColor: COLORS.LIGHTGREY,
+        borderWidth: 1
+    },
+    submitButton: {
+        alignSelf: "center",
+        backgroundColor: COLORS.WHITE,
+        borderRadius: 50,
+        padding: 20,
+        borderWidth: 2,
+        borderColor: "black"
+    },
+    text: {
+        fontSize: FONT_SIZES.NORMAL,
+        color: "black"
+    },
+    title: {
+        color: COLORS.DARKBLUE,
+        fontFamily: FONT_FAMILY.EXTRABOLD,
+        fontSize: FONT_SIZES.TITLE,
+        alignSelf: "center",
+        zIndex: 1,
+    },
+    verifyCodeText: {
+        fontFamily: FONT_FAMILY.REGULAR,
+        fontWeight: "900",
+        color: COLORS.WHITE,
+        fontSize: FONT_SIZES.BUTTON,
+    },
+    verifyCodeButton: {
+        backgroundColor: COLORS.DARKBLUE,
+        width: 140,
+        borderRadius: 150,
+        alignItems: "center",
+        paddingVertical: 20,
+        borderStyle: "dotted",
+        alignSelf: "center",
+        margin: 20
+    }
+})
+
