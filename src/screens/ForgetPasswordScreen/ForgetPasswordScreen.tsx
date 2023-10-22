@@ -10,54 +10,33 @@ import {Loader} from "../../components/Loader/Loader";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedText} from "./AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";
-import {resetError} from "../../redux/actions/resetError";
 import {displayMessage} from "../../utils/displayMessage";
+import {resetErrorRequest} from "../../redux/actions/resetError";
+
+const selectLoading = (state: RootState) => state.user.loading;
+const selectCode = (state: RootState) => state.user.code;
+const selectError = (state: RootState) => state.user.error;
 
 export const ForgetPasswordScreen = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const selecLoading = (state: RootState) => state.user.loading;
-    const loading = useSelector(selecLoading);
-    const selectCode = (state: RootState) => state.user.code;
+
+    const loading = useSelector(selectLoading);
     const code = useSelector(selectCode);
-    const selectError = (state: RootState) => state.user.error;
     const error = useSelector(selectError);
-
-    // useEffect(() => {
-    //     resetError()(dispatch);
-    // }, [])
-
-    // useFocusEffect(
-    //     useCallback(() => {
-    //         console.log("here >> forget >> resetError")
-    //         resetError()(dispatch);
-    //     }, [])
-    // );
 
     useFocusEffect(
         useCallback(() => {
-            console.log("here >> forget")
             if (code) {
                 navigation.navigate('CodeVerify' as never)
             }
             if (error) {
                 displayMessage(error)
-                console.log("here >> forget >> error")
-                resetError()(dispatch);
+                dispatch(resetErrorRequest);
             }
 
         }, [code, error])
     );
-
-    // useFocusEffect(() => {
-    //     if (code) {
-    //         navigation.navigate('CodeVerify' as never)
-    //     }
-    //     if (error) {
-    //         displayErrorMessage(error)
-    //         console.log("here >> forget")
-    //     }
-    // }, []);
 
     const handleSubmit = (values: { email: string }) => {
         forgetPassword(values.email)(dispatch)
