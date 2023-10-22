@@ -8,36 +8,33 @@ import {styles} from "./style";
 import {resetPasswordValidationScheme} from "./resetPasswordValidationScheme";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {displayMessage} from "../../utils/displayMessage";
-import {resetError} from "../../redux/actions/resetError";
+import {resetError, resetErrorRequest} from "../../redux/actions/resetError";
 import {Loader} from "../../components/Loader/Loader";
 
+const selectLoading = (state: RootState) => state.user.loading;
+const selectError = (state: RootState) => state.user.error;
+const selectEmail = (state: RootState) => state.user.email;
+
 export const ResetPasswordScreen = () => {
-    const selectEmail = (state: RootState) => state.user.email;
-    const email = useSelector(selectEmail);
     const navigation = useNavigation();
-    const selectError = (state: RootState) => state.user.error;
+
+    const email = useSelector(selectEmail);
     const error = useSelector(selectError);
-    const selecLoading = (state: RootState) => state.user.loading;
-    const loading = useSelector(selecLoading);
+    const loading = useSelector(selectLoading);
 
-    const handleSubmit = (values: { password: string, passwordRepeat: string }) => {
-        console.log(values.password, email)
-        resetPassword(email, values.password)(dispatch).then(() => {
-            if (!error) {
-                navigation.navigate('Login' as never)
-            }
-        })
-
+    const handleSubmit = async (values: { password: string, passwordRepeat: string }) => {
+        await resetPassword(email, values.password)(dispatch)
+        if (!error) {
+            navigation.navigate('Login' as never)
+        }
     }
 
     useFocusEffect(
         useCallback(() => {
             if (error) {
                 displayMessage(error)
-                console.log("here >> forget >> error")
-                resetError()(dispatch);
+                dispatch(resetErrorRequest);
             }
-
         }, [error])
     );
 
