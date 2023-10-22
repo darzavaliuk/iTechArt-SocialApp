@@ -14,18 +14,22 @@ import {displayMessage} from "../../utils/displayMessage";
 import {AnimatedText} from "../LoginScreen/AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";
 import {Loader} from "../../components/Loader/Loader";
+import {resetErrorRequest} from "../../redux/actions/resetError";
 
 type Props = {
     navigation: NavigationProp<string>;
 };
+
+const selectLoading = (state: RootState) => state.user.loading;
+const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
+const selectError = (state: RootState) => state.user.error;
+
 export const SignUpScreen: React.FC<Props> = ({navigation}) => {
     const [avatar, setAvatar] = useState('');
     const dispatch = useDispatch();
-    const selectError = (state: RootState) => state.user.error;
-    const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
+
     const error = useSelector(selectError);
     const isAuthenticated = useSelector(selectIsAuthenticated);
-    const selectLoading = (state: RootState) => state.user.loading;
     const loading = useSelector(selectLoading);
 
     const uploadImage = () => {
@@ -46,9 +50,9 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
 
     useFocusEffect(
         useCallback(() => {
-            console.log("here >> sign up")
             if (error) {
                 displayMessage(error)
+                dispatch(resetErrorRequest);
             }
             if (isAuthenticated) {
                 loadUser()(dispatch);
