@@ -1,4 +1,4 @@
-import {Dispatch} from "react";
+import {Dispatch} from "redux";
 import axios, {AxiosError} from "axios";
 import {URI} from "../../URI";
 
