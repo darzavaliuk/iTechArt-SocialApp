@@ -7,10 +7,11 @@ import {displayMessage} from "../../utils/displayMessage";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedBackground} from "./AnimatedBackground";
 
+const selectCode = (state: RootState) => state.user.code;
+
 export const CodeVerify = () => {
     const [codeActual, setCode] = useState(["", "", "", ""])
     const navigation = useNavigation();
-    const selectCode = (state: RootState) => state.user.code;
     const code = useSelector(selectCode);
     const inputs: React.RefObject<(TextInput | null)[]> = useRef([]);
 
