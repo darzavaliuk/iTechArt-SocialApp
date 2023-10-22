@@ -5,7 +5,7 @@ import {
     TouchableOpacity,
     Image,
 } from 'react-native';
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {loginUser} from "../../redux/actions/loginAction";
 import {loadUser} from "../../redux/actions/loadUser";
@@ -14,13 +14,16 @@ import {Formik} from "formik";
 import {styles} from "./style";
 import {loginValidationSchema} from "./validationScheme";
 import Animated from 'react-native-reanimated';
-import {resetError} from "../../redux/actions/resetError";
 import {displayMessage} from "../../utils/displayMessage";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedText} from "./AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";
-import {COLORS} from "../../../constants/colors/colors";
 import {Loader} from "../../components/Loader/Loader";
+import {resetErrorRequest} from "../../redux/actions/resetError";
+
+const selectError = (state: RootState) => state.user.error;
+const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
+const selectLoading = (state: RootState) => state.user.loading;
 
 export const LoginScreen = () => {
     const navigation = useNavigation();
@@ -28,18 +31,16 @@ export const LoginScreen = () => {
     const handleSubmit = (values: { email: string, password: string }) => {
         loginUser(values.email, values.password)(dispatch);
     };
-    const selectError = (state: RootState) => state.user.error;
-    const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
+
     const error = useSelector(selectError);
     const isAuthenticated = useSelector(selectIsAuthenticated);
-    const selectLoading = (state: RootState) => state.user.loading;
     const loading = useSelector(selectLoading);
 
     useFocusEffect(
         useCallback(() => {
             if (error) {
                 displayMessage(error)
-                resetError()(dispatch);
+                dispatch(resetErrorRequest);
             }
             if (isAuthenticated) {
                 loadUser()(dispatch);
