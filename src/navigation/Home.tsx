@@ -1,12 +1,21 @@
-import React from 'react';
-import {StatusBar, Text} from 'react-native';
+import React, {useEffect} from 'react';
+import {StatusBar} from 'react-native';
 import {NavigationContainer} from "@react-navigation/native";
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Auth from "./Auth";
-import {Loader} from "../components/Loader";
+import {Main} from "./Main";
+import {loadUser, LoadUserAction} from "../redux/actions/loadUser";
+import {RootState} from "../redux/reducers/rootReducer";
+import {ThunkDispatch} from "@reduxjs/toolkit";
 
 const HomeScreen = () => {
-    const {isAuthenticated, loading} = useSelector((state: any) => state.user);
+    const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
+    const isAuthenticated = useSelector(selectIsAuthenticated);
+
+    const dispatch = useDispatch<ThunkDispatch<RootState, undefined, LoadUserAction>>();
+    useEffect(() => {
+        dispatch(loadUser());
+    }, []);
 
     return (
         <>
@@ -16,21 +25,15 @@ const HomeScreen = () => {
                 barStyle={'dark-content'}
                 showHideTransition={'fade'}
             />
-            <>
-                {
-                    loading ? (
-                        <Loader/>
-                    ) : (
-                        <NavigationContainer>
-                            {isAuthenticated ? (
-                                <Text>Main</Text>
-                            ) : (
-                                <Auth/>
-                            )}
-                        </NavigationContainer>
-                    )
-                }
-            </>
+
+            <NavigationContainer>
+                {isAuthenticated ? (
+                    <Main/>
+                ) : (
+                    <Auth/>
+                )}
+            </NavigationContainer>
+
         </>)
 };
 

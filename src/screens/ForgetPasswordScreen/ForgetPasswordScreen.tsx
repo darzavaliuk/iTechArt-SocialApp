@@ -1,46 +1,50 @@
-import {Image, Text, TextInput, TouchableOpacity, View} from "react-native";
-import React, {useEffect, useState} from "react";
+import {Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import React, {useCallback} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {forgetPassword} from "../../redux/actions/forgetPassword";
-import {useNavigation} from "@react-navigation/native";
-import {CodeVerify} from "../CodeVerifyScreen/CodeVerify";
+import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import {emailValidationSchema} from "../LoginScreen/validationScheme";
 import {Formik} from "formik";
-import {styles} from "./styles";
-import {Loader} from "../../components/Loader";
-import Animated, {} from "react-native-reanimated";
-import {displayErrorMessage} from "../../utils/displayMessage";
+import {Loader} from "../../components/Loader/Loader";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedText} from "./AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";
+import {displayMessage} from "../../utils/displayMessage";
+import {resetErrorRequest} from "../../redux/actions/resetError";
+import {COLORS} from "../../../constants/colors/colors";
+import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
+
+const selectLoading = (state: RootState) => state.user.loading;
+const selectCode = (state: RootState) => state.user.code;
+const selectError = (state: RootState) => state.user.error;
 
 export const ForgetPasswordScreen = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const [loading, setLoading] = useState<boolean>(false)
-    const {error} = useSelector((state: RootState) => state.user);
 
-    useEffect(() => {
-        console.log(error)
-        if (error) {
-            displayErrorMessage('Email not exist!')
-        }
-    }, [error]);
+    const loading = useSelector(selectLoading);
+    const code = useSelector(selectCode);
+    const error = useSelector(selectError);
+
+    useFocusEffect(
+        useCallback(() => {
+            if (code) {
+                navigation.navigate('CodeVerify' as never)
+            }
+            if (error) {
+                displayMessage(error)
+                dispatch(resetErrorRequest);
+            }
+
+        }, [code, error])
+    );
 
     const handleSubmit = (values: { email: string }) => {
-        setLoading(true)
-        console.log("submit")
-        console.log(values)
-        forgetPassword(values.email)(dispatch).then(() => {
-                setLoading(false);
-                if (!error)
-                    navigation.navigate('CodeVerify' as never)
-            }
-        )
+        forgetPassword(values.email)(dispatch)
     };
 
     return (
-        <View style={{flex: 1, backgroundColor: "#dbe9f6"}}>
+        <View style={styles.wrapper}>
             {
                 loading ? (
                     <Loader/>
@@ -94,6 +98,80 @@ export const ForgetPasswordScreen = () => {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    wrapper: {
+        flex: 1,
+        backgroundColor: COLORS.WHITEBLUE
+    },
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        flexDirection: "column",
+        paddingHorizontal: 20,
+    },
+    input: {
+        backgroundColor: COLORS.WHITE,
+        borderRadius: 40,
+        paddingLeft: 45,
+        paddingRight: 10,
+        marginRight: 0,
+        marginHorizontal: -20,
+        fontSize: 20,
+        letterSpacing: -1,
+        fontFamily: FONT_FAMILY.REGULAR,
+        flex: 1,
+        marginVertical: 5
+    },
+    image: {
+        height: 20,
+        width: 20,
+        zIndex: 1000,
+        top: 18,
+        left: 15,
+    },
+    error: {
+        fontSize: 12,
+        fontFamily: FONT_FAMILY.REGULAR,
+        letterSpacing: -0.3,
+        color: "red",
+        marginLeft: 45
+    },
+    signUpText: {
+        color: COLORS.DARKBLUE,
+        fontSize: 14,
+        marginBottom: 20,
+        alignSelf: "center"
+    },
+    signUpButton: {
+        borderStyle: "dotted",
+        borderWidth: 2,
+        borderColor: "black",
+        fontFamily: FONT_FAMILY.EXTRABOLD,
+        fontSize: 16,
+
+    },
+    loginText: {
+        fontFamily: FONT_FAMILY.REGULAR,
+        fontWeight: "900",
+        color: COLORS.WHITE,
+        fontSize: 24
+    },
+    loginButton: {
+        backgroundColor: COLORS.DARKBLUE,
+        width: 160,
+        borderRadius: 150,
+        alignItems: "center",
+        paddingVertical: 20,
+        borderStyle: "dotted",
+        borderWidth: 2,
+        borderColor: COLORS.WHITEBLUE,
+        margin: 10,
+        alignSelf: "flex-end"
+    },
+
+})
+
 
 
 

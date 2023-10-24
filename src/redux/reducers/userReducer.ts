@@ -13,96 +13,98 @@ const initialState = {
 };
 
 export const userReducer = createReducer(initialState, {
-    resetError: state => {
+    RESET_ERROR: state => {
         state.error = null;
     },
-    userRegisterRequest: state => {
+    REGISTER_USER_REQUEST: state => {
         state.loading = true;
         state.isAuthenticated = false;
     },
-    userRegisterSuccess: (state, action) => {
+    REGISTER_USER_SUCCESS: (state, action) => {
         state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload;
     },
-    userRegisterFailed: (state, action) => {
+    REGISTER_USER_FAILED: (state, action) => {
         state.loading = false;
         state.isAuthenticated = false;
         state.error = action.payload;
     },
-    userLoadRequest: state => {
+    LOAD_USER_REQUEST: state => {
         state.loading = true;
         state.isAuthenticated = false;
     },
-    userLoadSuccess: (state, action) => {
+    LOAD_USER_SUCCESS: (state, action) => {
         state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload.user;
         state.token = action.payload.token;
     },
-    userLoadFailed: (state) => {
+    LOAD_USER_FAILED: (state) => {
         state.loading = false;
         state.isAuthenticated = false;
     },
-    userLoginRequest: state => {
+    LOGIN_USER_REQUEST: state => {
         state.isAuthenticated = false;
         state.loading = true;
     },
-    userLoginSuccess: (state, action) => {
+    LOGIN_USER_SUCCESS: (state, action) => {
         state.isAuthenticated = true;
         state.loading = false;
         state.user = action.payload;
     },
-    userLoginFailed: (state, action) => {
+    LOGIN_USER_FAILED: (state, action) => {
         state.isAuthenticated = false;
         state.loading = false;
         state.error = action.payload;
         state.user = {};
     },
-    forgetPasswordRequest: state => {
+    FORGET_PASSWORD_REQUEST: state => {
         state.code = "";
-    },
-    forgetPasswordSuccess: (state, action) => {
-        state.code = action.payload.code;
-        state.email = action.payload.email;
-    },
-    forgetPasswordFailed: (state, action) => {
-        state.code = "";
-        state.error = action.payload;
-    },
-    resetPasswordRequest: (state, action) => {
-        state.error = action.payload;
-    },
-    resetPasswordSuccess: (state, action) => {
-        state.error = action.payload;
-    },
-    resetPasswordFailed: (state, action) => {
-        state.error = action.payload;
-    },
-    userLogoutRequest: state => {
         state.loading = true;
     },
-    userLogoutSuccess: state => {
+    FORGET_PASSWORD_SUCCESS: (state, action) => {
+        state.code = action.payload.code;
+        state.email = action.payload.email;
+        state.loading = false;
+    },
+    FORGET_PASSWORD_FAILED: (state, action) => {
+        state.code = "";
+        state.error = action.payload;
+        state.loading = false;
+    },
+    RESET_PASSWORD_REQUEST: (state, action) => {
+        state.error = null;
+        state.loading = true;
+    },
+    RESET_PASSWORD_SUCCESS: (state, action) => {
+        state.error = null;
+        state.loading = false;
+    },
+    RESET_PASSWORD_FAILED: (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+    },
+    LOGOUT_USER_REQUEST: state => {
+        state.loading = true;
+    },
+    LOGOUT_USER_SUCCESS: state => {
         state.loading = false;
         state.isAuthenticated = false;
         state.user = {};
     },
-    userLogoutFailed: state => {
+    LOGOUT_USER_FAILED: state => {
         state.loading = false;
     },
-    getUsersRequest: state => {
+    GET_USERS_REQUEST: state => {
         state.isLoading = true;
     },
-    getUsersSuccess: (state, action) => {
+    GET_USERS_SUCCESS: (state, action) => {
         state.isLoading = false;
         state.users = action.payload;
     },
-    getUsersFailed: (state, action) => {
+    GET_USERS_FAILED: (state, action) => {
         state.isLoading = false;
         state.users = action.payload;
-    },
-    clearErrors: state => {
-        state.error = null;
-        state.isAuthenticated = false;
-    },
+    }
 });

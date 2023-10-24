@@ -1,33 +1,52 @@
-// register user
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {URI} from "../../URI";
 import axios, {AxiosError} from "axios";
-import {Dispatch} from "react";
+import {Dispatch} from "redux";
+import {createAction} from "@reduxjs/toolkit";
+import * as types from "../actionTypes/actionTypes";
+import {setToken} from "../../utils/setToken";
 
-export const registerUser =
-    (name: string, email: string, password: string, avatar: string) =>
-        async (dispatch: Dispatch<any>) => {
-            try {
-                dispatch({
-                    type: 'userRegisterRequest',
-                });
+const registerUserRequest = createAction(types.REGISTER_USER_REQUEST);
+const registerUserSuccess = createAction<{ user: any }>(types.REGISTER_USER_SUCCESS);
+const registerUserFailed = createAction<{ error: string }>(types.REGISTER_USER_FAILED);
 
-                const config = {headers: {'Content-Type': 'application/json'}};
+type RegisterUserAction =
+    | ReturnType<typeof registerUserRequest>
+    | ReturnType<typeof registerUserSuccess>
+    | ReturnType<typeof registerUserFailed>;
 
-                const {data} = await axios.post(
-                    `${URI}/registration`,
-                    {name, email, password, avatar},
-                    config,
-                );
-                dispatch({
-                    type: 'userRegisterSuccess',
-                    payload: data.user,
-                });
-                await AsyncStorage.setItem('token', data.token);
-            } catch (error: unknown) {
-                dispatch({
-                    type: 'userRegisterFailed',
-                    payload: (error as AxiosError<{ message: string }>)?.response?.data?.message || "Unexpected error",
-                });
-            }
-        };
+export const registerUser = (
+    name: string,
+    email: string,
+    password: string,
+    avatar: string
+) => async (dispatch: Dispatch<RegisterUserAction>) => {
+    try {
+        dispatch(registerUserRequest());
+
+        const config = {headers: {"Content-Type": "application/json"}};
+
+        const {data} = await axios.post(
+            `${URI}/registration`,
+            {name, email, password, avatar},
+            config
+        );
+
+        dispatch(registerUserSuccess({user: data.user}));
+
+        try {
+            await setToken(data.token);
+        } catch (error) {
+            dispatch(registerUserFailed({
+                error: (error as AxiosError<{
+                    message: string
+                }>)?.response?.data?.message || "Unexpected error"
+            }));
+        }
+    } catch (error) {
+        dispatch(registerUserFailed({
+            error: (error as AxiosError<{
+                message: string
+            }>)?.response?.data?.message || "Unexpected error"
+        }));
+    }
+};

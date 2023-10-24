@@ -1,9 +1,4 @@
-import {Dispatch} from "react";
+import { createAction } from "@reduxjs/toolkit";
+import * as types from "../actionTypes/actionTypes";
 
-export const resetError =
-    () =>
-        async (dispatch: Dispatch<any>) => {
-            dispatch({
-                type: 'resetError',
-            })
-        }
+export const resetErrorRequest = createAction(types.RESET_ERROR);

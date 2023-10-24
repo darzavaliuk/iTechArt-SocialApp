@@ -1,7 +1,8 @@
 import Animated, {Easing, useAnimatedStyle, useSharedValue, withTiming} from "react-native-reanimated";
-import {styles} from "./style";
-import {Text} from "react-native";
+import {StyleSheet, Text} from "react-native";
 import React, {useEffect} from "react";
+import {COLORS} from "../../../constants/colors/colors";
+import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
 
 interface AnimatedTextProps {
     typingSpeed: number;
@@ -41,3 +42,16 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({typingSpeed, text}) =
         </Animated.View>
     )
 }
+
+const styles = StyleSheet.create({
+    animatedContainer: {
+        height: 80,
+        justifyContent: 'center',
+        paddingHorizontal: 5,
+    },
+    title: {
+        color: COLORS.DARKBLUE,
+        fontFamily: FONT_FAMILY.EXTRABOLD,
+        fontSize: 60,
+    },
+})
