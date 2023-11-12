@@ -1,19 +1,22 @@
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import React, {useRef, useState} from "react";
+import React, {useContext, useRef, useState} from "react";
 import {useSelector} from "react-redux";
 import {useNavigation} from "@react-navigation/native";
-import {displayMessage} from "../../utils/displayMessage";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedBackground} from "./AnimatedBackground";
 import {COLORS} from "../../../constants/colors/colors";
 import {FONT_SIZES} from "../../../constants/fontSizes/fontSizes";
 import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
+import ToastContext from "../../context/toasterContext";
+import toastType from "../../components/Toast/toastType";
 
 const selectCode = (state: RootState) => state.user.code;
 
 export const CodeVerify = () => {
     const [codeActual, setCode] = useState(["", "", "", ""])
     const navigation = useNavigation();
+    const {showToast} = useContext(ToastContext);
+
     const code = useSelector(selectCode);
     const inputs: React.RefObject<(TextInput | null)[]> = useRef([]);
 
@@ -23,7 +26,7 @@ export const CodeVerify = () => {
         if (isCodeMatch) {
             navigation.navigate('ResetPassword' as never);
         } else {
-            displayMessage('Code does not match!');
+            showToast(toastType.ERROR, 'Code does not match!', 3000);
         }
     };
 

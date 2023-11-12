@@ -5,7 +5,7 @@ import {
     TouchableOpacity,
     Image, StyleSheet,
 } from 'react-native';
-import React, {useCallback} from 'react';
+import React, {useCallback, useContext} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {loginUser} from "../../redux/actions/loginAction";
 import {loadUser} from "../../redux/actions/loadUser";
@@ -13,7 +13,6 @@ import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import {Formik} from "formik";
 import {loginValidationSchema} from "./validationScheme";
 import Animated from 'react-native-reanimated';
-import {displayMessage} from "../../utils/displayMessage";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedText} from "./AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";
@@ -21,12 +20,15 @@ import {Loader} from "../../components/Loader/Loader";
 import {resetErrorRequest} from "../../redux/actions/resetError";
 import {COLORS} from "../../../constants/colors/colors";
 import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
+import ToastContext from "../../context/toasterContext";
+import toastType from "../../components/Toast/toastType";
 
 const selectError = (state: RootState) => state.user.error;
 const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
 const selectLoading = (state: RootState) => state.user.loading;
 
 export const LoginScreen = () => {
+    const {showToast} = useContext(ToastContext);
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const handleSubmit = (values: { email: string, password: string }) => {
@@ -40,19 +42,18 @@ export const LoginScreen = () => {
     useFocusEffect(
         useCallback(() => {
             if (error) {
-                displayMessage(error)
+                showToast(toastType.ERROR, error, 3000);
                 dispatch(resetErrorRequest);
             }
             if (isAuthenticated) {
                 loadUser()(dispatch);
-                displayMessage('Login successful!')
+                showToast(toastType.SUCCESS, 'Login successful!', 3000);
             }
         }, [isAuthenticated, error, dispatch, navigation])
     );
 
     return (
         <View style={styles.wrapper}>
-            {/*<Toast ref={toastRef}/>*/}
             {
                 loading ? (
                     <Loader/>

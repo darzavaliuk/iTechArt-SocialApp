@@ -1,16 +1,17 @@
 import {Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import React, {useCallback} from "react";
+import React, {useCallback, useContext} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {resetPassword} from "../../redux/actions/resetPassword";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import {Formik} from "formik";
 import {resetPasswordValidationScheme} from "./resetPasswordValidationScheme";
 import {RootState} from "../../redux/reducers/rootReducer";
-import {displayMessage} from "../../utils/displayMessage";
 import {resetErrorRequest} from "../../redux/actions/resetError";
 import {Loader} from "../../components/Loader/Loader";
 import {COLORS} from "../../../constants/colors/colors";
 import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
+import toastType from "../../components/Toast/toastType";
+import ToastContext from "../../context/toasterContext";
 
 const selectLoading = (state: RootState) => state.user.loading;
 const selectError = (state: RootState) => state.user.error;
@@ -18,6 +19,7 @@ const selectEmail = (state: RootState) => state.user.email;
 
 export const ResetPasswordScreen = () => {
     const navigation = useNavigation();
+    const {showToast} = useContext(ToastContext);
 
     const email = useSelector(selectEmail);
     const error = useSelector(selectError);
@@ -33,7 +35,7 @@ export const ResetPasswordScreen = () => {
     useFocusEffect(
         useCallback(() => {
             if (error) {
-                displayMessage(error)
+                showToast(toastType.ERROR, error, 3000);
                 dispatch(resetErrorRequest);
             }
         }, [error])
