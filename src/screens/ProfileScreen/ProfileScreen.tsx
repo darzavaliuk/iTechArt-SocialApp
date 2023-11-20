@@ -17,8 +17,9 @@ import {getAnimatedValues} from "./Animated";
 import {getHeightForElements} from "./Helpers";
 import {Avatar} from "./Avatar";
 import PostCard from "../PostsDisplayScreen/PostCard/PostCard";
-import {getPosts, getReplies} from "../../redux/actions/postActions";
 import {StatsComponent} from "./StatsComponent";
+import {getPosts} from "../../redux/actions/getPosts";
+import {getReplies} from "../../redux/actions/getReplies";
 
 const selectTargets = (state: RootState) => state.user.targets;
 const selectUser = (state: RootState) => state.user;
