@@ -1,4 +1,4 @@
-const toastType = {
+const ToastType = {
     SUCCESS: 'success',
     WARNING: 'warning',
     ERROR: 'error'
