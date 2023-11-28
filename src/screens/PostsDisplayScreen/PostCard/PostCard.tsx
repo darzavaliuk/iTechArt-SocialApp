@@ -7,13 +7,13 @@ import {addLikes, removeLikes} from "../../../redux/actions/postActions";
 import PostDetailsCard from "./PostDetailsCard";
 import getTimeDuration from "./timeGen";
 import {useNavigation} from "@react-navigation/native";
-import {Post, User} from "../../../redux/reducers/User";
+import {Post, Reply, User} from "../../../redux/reducers/User";
 import {getPosts} from "../../../redux/actions/getPosts";
 import {RootState} from "../../../redux/reducers/rootReducer";
 import getProfile from "../../../redux/actions/getUser";
 
 type Props = {
-    item: Post;
+    item: Post | Reply;
     isReply?: boolean | null;
     postId: string;
     replies?: boolean | null;

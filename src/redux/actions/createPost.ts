@@ -42,7 +42,7 @@ export const createPostAction =
                 dispatch(createPostSuccess(
                     {userData}
                 ));
-            } catch (error: any) {
+            } catch (error) {
                 dispatch(createPostFailed((error as AxiosError<{
                     message: string
                 }>)?.response?.data?.message || "Unexpected error"));

@@ -32,7 +32,7 @@ export const getAllUsers = () => async (dispatch: Dispatch<GetAllPostsAction>) =
         const dataUsers = data.users;
 
         dispatch(getAllUsersSuccess(dataUsers));
-    } catch (error: any) {
+    } catch (error) {
         dispatch(
             getAllUsersFailed(
                 (error as AxiosError<{ message: string }>)?.response?.data?.message ||
