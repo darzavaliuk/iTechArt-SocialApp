@@ -1,6 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {Post, Reply} from "./User";
-import {CREATE_POST_REQUEST} from "../actionTypes/actionTypes";
 
 const intialState = {
     posts:[] as Post[],
@@ -27,7 +26,7 @@ export const postReducer = createReducer(intialState, {
     },
     GET_POSTS_SUCCESS: (state,action) => {
         state.isLoading = false;
-        state.posts = action.payload;
+        state.posts = action.payload.dataPosts;
     },
     GET_POSTS_FAILED: (state,action) => {
         state.isLoading = false;
@@ -41,7 +40,8 @@ export const postReducer = createReducer(intialState, {
     },
     GET_POST_SUCCESS: (state,action) => {
         state.isLoading = false;
-        state.postsUser = action.payload;
+        console.log(action.payload)
+        state.postsUser = action.payload.dataPosts;
     },
     GET_POST_FAILED: (state,action) => {
         state.isLoading = false;
