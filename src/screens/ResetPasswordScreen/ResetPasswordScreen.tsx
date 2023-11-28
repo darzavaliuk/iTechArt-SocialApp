@@ -10,7 +10,7 @@ import {resetErrorRequest} from "../../redux/actions/resetError";
 import {Loader} from "../../components/Loader/Loader";
 import {COLORS} from "../../../constants/colors/colors";
 import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
-import toastType from "../../components/Toast/toastType";
+import {ToastType} from "../../../constants/toastTypes/toastTypes";
 import ToastContext from "../../context/toasterContext";
 
 const selectLoading = (state: RootState) => state.user.loading;
@@ -35,7 +35,7 @@ export const ResetPasswordScreen = () => {
     useFocusEffect(
         useCallback(() => {
             if (error) {
-                showToast(toastType.ERROR, error, 3000);
+                showToast(ToastType.ERROR, error, 3000);
                 dispatch(resetErrorRequest);
             }
         }, [error])
