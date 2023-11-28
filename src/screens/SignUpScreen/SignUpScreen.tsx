@@ -15,7 +15,7 @@ import {Loader} from "../../components/Loader/Loader";
 import {resetErrorRequest} from "../../redux/actions/resetError";
 import {COLORS} from "../../../constants/colors/colors";
 import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
-import toastType from "../../components/Toast/toastType";
+import {ToastType} from "../../../constants/toastTypes/toastTypes";
 import ToastContext from "../../context/toasterContext";
 
 type Props = {
@@ -54,7 +54,7 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
     useFocusEffect(
         useCallback(() => {
             if (error) {
-                showToast(toastType.ERROR, error, 3000);
+                showToast(ToastType.ERROR, error, 3000);
                 dispatch(resetErrorRequest);
             }
             if (isAuthenticated) {
@@ -66,7 +66,7 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
 
     const handleSubmit = (values: { name: string, email: string, password: string }) => {
         if (avatar === '' || values.name === '' || values.email === '') {
-            showToast(toastType.WARNING, 'Please fill the all fields and upload avatar', 3000);
+            showToast(ToastType.WARNING, 'Please fill the all fields and upload avatar', 3000);
         } else {
             registerUser(values.name!, values.email!, values.password!, avatar!)(dispatch);
         }
