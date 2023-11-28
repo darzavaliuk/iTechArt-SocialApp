@@ -21,7 +21,7 @@ import {resetErrorRequest} from "../../redux/actions/resetError";
 import {COLORS} from "../../../constants/colors/colors";
 import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
 import ToastContext from "../../context/toasterContext";
-import toastType from "../../components/Toast/toastType";
+import {ToastType} from "../../../constants/toastTypes/toastTypes";
 
 const selectError = (state: RootState) => state.user.error;
 const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
@@ -42,12 +42,12 @@ export const LoginScreen = () => {
     useFocusEffect(
         useCallback(() => {
             if (error) {
-                showToast(toastType.ERROR, error, 3000);
+                showToast(ToastType.ERROR, error, 3000);
                 dispatch(resetErrorRequest);
             }
             if (isAuthenticated) {
                 loadUser()(dispatch);
-                showToast(toastType.SUCCESS, 'Login successful!', 3000);
+                showToast(ToastType.SUCCESS, 'Login successful!', 3000);
             }
         }, [isAuthenticated, error, dispatch, navigation])
     );
