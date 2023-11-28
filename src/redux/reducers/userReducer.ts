@@ -5,7 +5,7 @@ const initialState = {
     isAuthenticated: false,
     loading: false,
     isLoading: false,
-    user: {} as User,
+    user: {},
     users: [],
     token: "",
     error: null,
@@ -17,7 +17,6 @@ const initialState = {
 export const userReducer = createReducer(initialState, {
     RESET_ERROR: state => {
         state.error = null;
-        console.log(state.error)
     },
     REGISTER_USER_REQUEST: state => {
         state.loading = true;
@@ -114,7 +113,6 @@ export const userReducer = createReducer(initialState, {
         state.targets = [];
     },
     LOAD_TARGETS_SUCCESS: (state, action) => {
-        console.log(action.payload)
         state.targets = action.payload.targets;
     },
     LOAD_TARGETS_FAILED: (state, action) => {
@@ -124,9 +122,7 @@ export const userReducer = createReducer(initialState, {
 
     },
     CREATE_TARGET_SUCCESS: (state, action) => {
-        console.log({subtitle: action.payload.subtitle, subtargets: action.payload.subtargets})
         state.targets = [...state.targets, {name: action.payload.subtitle, subTargets: action.payload.subtargets}]
-        console.log(state.targets)
     },
     CREATE_TARGET_FAILED: (state, action) => {
 
