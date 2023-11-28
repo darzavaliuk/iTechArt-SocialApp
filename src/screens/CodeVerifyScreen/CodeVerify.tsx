@@ -8,7 +8,7 @@ import {COLORS} from "../../../constants/colors/colors";
 import {FONT_SIZES} from "../../../constants/fontSizes/fontSizes";
 import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
 import ToastContext from "../../context/toasterContext";
-import toastType from "../../components/Toast/toastType";
+import {ToastType} from "../../../constants/toastTypes/toastTypes";
 
 const selectCode = (state: RootState) => state.user.code;
 
@@ -26,7 +26,7 @@ export const CodeVerify = () => {
         if (isCodeMatch) {
             navigation.navigate('ResetPassword' as never);
         } else {
-            showToast(toastType.ERROR, 'Code does not match!', 3000);
+            showToast(ToastType.ERROR, 'Code does not match!', 3000);
         }
     };
 
