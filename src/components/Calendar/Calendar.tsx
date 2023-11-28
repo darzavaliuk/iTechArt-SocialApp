@@ -1,125 +1,365 @@
-import React, {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
-import {Agenda, AgendaSchedule} from 'react-native-calendars';
-import {Card} from 'react-native-paper';
-import {loadTargets} from "../../redux/actions/loadTargets";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../redux/reducers/rootReducer";
+import React, {useState, useEffect} from 'react';
+import {
+    View,
+    StyleSheet,
+    TouchableOpacity,
+    Text,
+    ScrollView
+} from 'react-native';
 // @ts-ignore
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
-import LottieView from 'lottie-react-native';
-import {Loader} from "../Loader/Loader";
-import {TargetSchema} from "../../redux/reducers/User";
+import {CardComponent} from "./CardComponent";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../redux/reducers/rootReducer";
+import {fetchEvents} from "../../redux/actions/getEvents";
 
-const timeToString = (time: Date) => {
-    const date = new Date(time);
-    return date.toISOString().split('T')[0];
-};
+const selectEvent = (state: RootState) => state.events;
+export const Calendar = () => {
+    const [activeDate, setActiveDate] = useState(new Date());
+    const [dots, setDots] = useState(Array(31).fill(false));
+    const [day, setDay] = useState("")
 
-interface AgendaEntry {
-    name: string;
-    maxValue: string;
-    value: string;
-    height?: number;
-    day?: string;
-}
+    const MONTHS = [
+        "January", "February", "March", "April", "May", "June", "July",
+        "August", "September", "October", "November", "December"
+    ];
 
-interface Items {
-    [key: string]: AgendaEntry[];
-}
-
-const selectTargets = (state: RootState) => state.user.targets;
-
-export const Calendar: React.FC = () => {
-    const [items, setItems] = useState<Items>({});
-    const targets = useSelector(selectTargets);
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        loadTargets()(dispatch).then(() => {
-            setLoading(true)
-            targets.forEach((target: TargetSchema) => {
-                let nameOfTarget = target.name;
-                target.subTargets.forEach((item) => {
-                    let name = item.text;
-                    let maxValue = item.maxValue
-                    item.timeOrNumbers.forEach((el) => {
-                        let strTime = timeToString(el.timestamp);
-                        if (!items[strTime]) {
-                            items[strTime] = [];
-                        }
-                        items[strTime].push({
-                            name: nameOfTarget + " - " + name + " ",
-                            maxValue: maxValue!,
-                            value: el.value
-                        });
-                    })
-                })
-                const newItems = {} as Items;
-                Object.keys(items).forEach((key) => {
-                    newItems[key] = items[key];
-                });
-                setItems(newItems);
-            })
-            setLoading(false)
-        });
-    }, [])
+    const {data} = useSelector(selectEvent);
 
-    const renderItem = (item: Items) => {
-        return (
-            <View style={{marginRight: 10, marginTop: 30, marginBottom: 10, backgroundColor: "white"}}>
-                <Card>
-                    <Card.Content>
-                        <View
-                            style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                            }}>
-                        </View>
-                        <Text>Target: {item.name}</Text>
-                        <Text>Your result: {item.value}</Text>
-                        <Text>Your target: {item.maxValue}</Text>
-                        <View style={{alignSelf: "center"}}>
-                            <LottieView
-                                source={require("../../../assets/animation_lkbqh8co.json")}
-                                autoPlay
-                                loop
-                                style={{
-                                    height: 70,
-                                    left: Number(item.value) / Number(item.maxValue) * 200 - 40,
-                                    width: 70
-                                }}
-                            />
-                            <ProgressBarAnimated
-                                value={Number(item.value) / Number(item.maxValue) * 100}
-                                backgroundColorOnComplete="#6CC644"
-                                width={200}
-                            />
-                        </View>
-                    </Card.Content>
-                </Card>
-            </View>
-        );
+    const fetchEvent = async (month: number, year: number) => {
+        await fetchEvents(month, year)(dispatch)
     };
 
-    const currentDate = new Date();
+    useEffect(() => {
+        const newDots: boolean[] = Array(31).fill(false);
+        data?.subTargets?.forEach((subTarget: any) => {
+            const index: number = Number(subTarget._id.slice(-2));
+            newDots[index] = true;
+        });
+
+        setDots([...newDots]);
+    }, [data])
+
+    const WEEK_DAYS: string[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+    useEffect(() => {
+        const currentDate: Date = new Date();
+        setActiveDate(currentDate);
+        fetchEvent(currentDate.getMonth(), currentDate.getFullYear());
+    }, []);
+
+    const changeMonth = (n: number): void => {
+        setActiveDate((prevActiveDate: Date) => {
+            const newActiveDate: Date = new Date(prevActiveDate);
+            const newMonth: number = newActiveDate.getMonth() + n;
+            fetchEvent(newMonth, activeDate.getFullYear());
+            newActiveDate.setMonth(newMonth);
+            return newActiveDate;
+        });
+    };
+
+    const WEEKDAYS: number = 7;
+    const FIRST_ROW: number = 1;
+    const LAST_ROW: number = 6;
+
+    const generateMatrix = (): Array<Array<number | string>> => {
+        const matrix: Array<Array<number | string>> = [];
+        matrix[0] = WEEK_DAYS;
+
+        const year: number = activeDate.getFullYear();
+        const month: number = activeDate.getMonth();
+        const firstDay: number = new Date(year, month, 1).getDay();
+        const maxDays: number = getNumberOfDays(year, month);
+
+        let counter: number = 1;
+        for (let row: number = FIRST_ROW; row <= LAST_ROW; row++) {
+            matrix[row] = [];
+            for (let col: number = 0; col < WEEKDAYS; col++) {
+                if (row === FIRST_ROW && col >= firstDay) {
+                    matrix[row][col] = counter++;
+                } else if (row > FIRST_ROW && counter <= maxDays) {
+                    matrix[row][col] = counter++;
+                } else {
+                    matrix[row][col] = " ";
+                }
+            }
+        }
+
+        return matrix;
+    };
+
+    const getNumberOfDays = (year: number, month: number): number => {
+        const DAYS_IN_MONTH: number[] = [
+            31, // January
+            28, // February
+            31, // March
+            30, // April
+            31, // May
+            30, // June
+            31, // July
+            31, // August
+            30, // September
+            31, // October
+            30, // November
+            31, // December
+        ];
+        const isLeapYear: boolean =
+            (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+
+        if (month === 1 && isLeapYear) {
+            return DAYS_IN_MONTH[month] + 1; // February in a leap year
+        }
+
+        return DAYS_IN_MONTH[month];
+    };
+
+    const matrix = generateMatrix();
+
+    const modalTrigger = (d: string | number) => {
+        setDay(d.toString())
+    }
 
     return (
-        <View style={{flex: 1, backgroundColor: "white"}}>
-            {!loading ?
-                <Agenda
-                    items={items as AgendaSchedule}
-                    renderEmptyData={() => <></>}
-                    selected={timeToString(currentDate)}
-                    renderItem={renderItem}
-                    theme={{
-                        agendaTodayColor: 'red',
-                        selectedDayBackgroundColor: '#3C1874',
-                        todayTextColor: '#3C1874',
-                    }}
-                /> : <Loader/>}
+        <View
+            style={styles.container}>
+            <View
+                style={styles.headerContainer}>
+                <TouchableOpacity
+                    style={styles.buttonChangeMonthLeft}
+                    onPress={() => changeMonth(-1)}>
+                    <Text style={{fontSize: 28, color: "white"}}>{'\u003C'}</Text>
+                </TouchableOpacity>
+                <Text
+                    style={styles.headerTitle}>
+                    {MONTHS[activeDate.getMonth()]} &nbsp;
+                    {activeDate.getFullYear()} &nbsp;
+                </Text>
+                <TouchableOpacity
+                    style={styles.buttonChangeMonthRight}
+                    onPress={() => changeMonth(+1)}>
+                    <Text style={{fontSize: 28, color: "white"}}>{'\u003E'}</Text>
+                </TouchableOpacity>
+            </View>
+            <View
+                style={styles.content}>
+                <View
+                    style={styles.calendar}>
+                    {matrix.map((row, k) =>
+                        (<View style={styles.dayRow}>
+                            {row.map((d, ind) => (
+                                <TouchableOpacity
+                                    onPress={() => modalTrigger(d)}
+                                    disabled={false}
+                                    style={styles.buttonCalendar}
+                                    key={ind}
+                                ><Text
+                                    style={[(ind === 0 ? (k === 0 ? styles.sun : styles.sunDates) : (k === 0 ? styles.dayRowText : styles.otherRowText)), dots[d] && styles.dottedDate]}
+                                >{d}</Text></TouchableOpacity>
+                            ))}</View>))}
+                    <ScrollView style={{width: '100%'}}>
+                        <View>
+                            {data &&
+                                data?.subTargets?.map((subtarget) => {
+                                    const date = subtarget._id.slice(-2);
+                                    if (date == day) {
+                                        return subtarget.events.map((target, index: number) => (
+                                            <CardComponent target={target} key={index}/>
+                                        ));
+                                    }
+                                    return null;
+                                })}
+
+                        </View>
+                    </ScrollView>
+                </View>
+
+            </View>
         </View>
-    );
-};
+    )
+}
+export default Calendar;
+
+const styles = StyleSheet.create({
+    backBtn: {
+        position: 'absolute',
+        zIndex: 11,
+        margin: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        elevation: 8,
+    },
+    calendar: {
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        padding: 10,
+        left: 10,
+        flexDirection: "column"
+    },
+    content: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(168, 218, 220,0.4)',
+        height: 500,
+        width: 400,
+    },
+    buttonCalendar: {
+        width: 50,
+        height: 30,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    headerTitle: {
+        fontWeight: 'bold',
+        fontSize: 18,
+        textAlign: 'center',
+        color: '#fff',
+    },
+    headerContainer: {
+        width: 500,
+        height: 50,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        paddingLeft: 15,
+        paddingRight: 15,
+        alignItems: 'center',
+        backgroundColor: '#457b9d',
+    },
+    buttonChangeMonthLeft: {
+        position: 'absolute',
+        left: 150,
+    },
+    buttonChangeMonthRight: {
+        position: 'absolute',
+        right: 150,
+    },
+    container: {
+        flex: 1,
+        padding: 0,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+
+    footer: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 10,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        // backgroundColor: 'rgba(168, 218, 220,0.4)',
+    },
+
+    sun: {
+        color: 'red',
+        fontSize: 18,
+        fontWeight: "bold",
+    },
+
+    sunDates: {
+        color: 'red',
+        fontSize: 18,
+        // paddingLeft: 10,
+    },
+
+    three: {
+        fontSize: 18,
+    },
+
+    dayRowText: {
+        fontSize: 18,
+        fontWeight: "bold",
+        // justifyContent: "center",
+    },
+
+    otherRowText: {
+        fontSize: 18,
+        // justifyContent: "center"
+    },
+    dayRow: {
+        flexDirection: "row",
+        // paddingRight: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // flex: 0,
+        alignSelf: "center"
+    },
+
+    otherRows: {
+        margin: 5,
+        flexDirection: "row",
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: "center"
+    },
+
+    dottedDate: {
+        backgroundColor: 'blue',
+        borderRadius: 4,
+        paddingHorizontal: 3,
+        paddingVertical: 1,
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 18,
+        textShadowColor: 'rgba(0, 0, 0, 0.25)',
+        textShadowOffset: { width: 0, height: 2 },
+        textShadowRadius: 4,
+    },
+    background: {
+        position: "absolute",
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    modalText: {
+        textAlign: "center", fontSize: 24
+    },
+    modalButton: {
+        backgroundColor: "transparent",
+        borderRadius: 100,
+        borderColor: "#ffffff",
+        marginTop: 64,
+        borderWidth: 1,
+
+    },
+    moreText: {
+        textAlign: "center", marginTop: 64,
+    },
+    helloText: {
+        fontSize: 51.2, textAlign: "center", marginTop: 20,
+    },
+    wrap: {
+        width: 400, borderRadius: 8, backgroundColor: "#203953", shadowColor: "#4048BF",
+        shadowOpacity: 0.74, shadowRadius: 30, elevation: 10,
+    },
+    text: {
+        fontSize: 28.8, color: "#ECF0F9", fontWeight: "600", fontFamily: "Avenir",
+    },
+    center: {
+        justifyContent: "center", alignItems: "center",
+    },
+    shadowButton: {
+        borderColor: "blue", borderWidth: 1, borderRadius: 105, width: 210, height: 80,
+        shadowColor: "#4048BF", shadowOffset: {width: 8.4, height: 8.4},
+        shadowOpacity: 0.5, shadowRadius: 30, elevation: 10,
+    },
+    mainButton: {
+        zIndex: 10,
+        width: 200,
+        height: 70,
+        borderRadius: 100,
+        shadowColor: "#40488F",
+        shadowOffset: {width: 6.4, height: 6.4,},
+        shadowOpacity: 0.5,
+        shadowRadius: 20,
+        backgroundColor: "#203953"
+    }
+
+});
