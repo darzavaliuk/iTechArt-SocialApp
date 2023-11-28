@@ -37,12 +37,16 @@ const Toast = forwardRef(({}, ref) => {
     const TOP_VALUE = Platform.OS === 'ios' ? 60 : 20;
     const {showToast} = useContext(ToastContext);
 
+    const setToastConfig = useCallback((config: ToastOptions) => {
+        setShowing(true);
+        setToastType(config.type);
+        setToastText(config.text);
+        setToastDuration(config.duration);
+    }, [setToastType, setToastText, setToastDuration]);
+
     const show = useCallback(
         ({type, text, duration}: ToastOptions) => {
-            setShowing(true);
-            setToastType(type);
-            setToastText(text);
-            setToastDuration(duration!);
+            setToastConfig({ type, text, duration });
             toastTopAnimation.value = withSequence(
                 withTiming(TOP_VALUE),
                 withDelay(
