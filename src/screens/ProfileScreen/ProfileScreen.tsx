@@ -1,6 +1,6 @@
 import {
-    Animated,
-    Dimensions,
+    Animated, Button,
+    Dimensions, FlatList,
     SafeAreaView,
     ScrollView,
     StyleSheet,
@@ -54,6 +54,32 @@ export const ProfileScreen = () => {
     } = getAnimatedValues(scrollY, Dimensions.get('window').height);
 
     const {headerFontSize, avatarFontSize} = getHeightForElements(Dimensions.get('window').height);
+
+    const [page, setPage] = useState(1);
+
+    useEffect(() => {
+        fetchPosts();
+    }, []);
+
+    const fetchPosts = () => {
+        // Загрузка постов с сервера
+        // Ваш код для получения постов с сервера, используя текущую страницу (page)
+
+        // Обновление списка постов
+        // setPosts(prevPosts => [...prevPosts, ...newPosts]);
+    };
+
+    const fetchMorePosts = () => {
+        const nextPage = page + 1;
+
+        // Загрузка следующей страницы постов
+        // Ваш код для получения новых постов с сервера, используя nextPage
+
+        // Обновление списка постов и текущей страницы
+        // setPosts(prevPosts => [...prevPosts, ...newPosts]);
+        setPage(nextPage);
+        console.log("fetch")
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -127,26 +153,34 @@ export const ProfileScreen = () => {
                     </View>
 
                     {active === 0 ? (
-                        <>
-                            {postsUser?.length === 0 && (
-                                <Text style={styles.message}>
-                                    You have no posts yet!
-                                </Text>
-                            )}
-                            {postsUser?.map((item) => (
-                                <PostCard key={item._id} item={item}/>
-                            ))}
-                        </>
+                            <FlatList
+                                data={postsUser}
+                                keyExtractor={(item) => item._id}
+                                renderItem={({item}) => (
+                                    <PostCard key={item._id} item={item}/>
+                                )}
+                                ListEmptyComponent={<Text style={styles.message}>You have no posts yet!</Text>}
+                                onEndReached={fetchMorePosts}
+                                onEndReachedThreshold={0.5}
+                                ListFooterComponent={() => (
+                                    <Button title="Load More" onPress={fetchMorePosts}/>
+                                )}
+                            />
                     ) : (
                         <>
-                            {repliesUser?.length === 0 && (
-                                <Text style={styles.message}>
-                                    You have no replies yet!
-                                </Text>
-                            )}
-                            {repliesUser?.map((item) => (
-                                <PostCard key={item._id} item={item} replies={true}/>
-                            ))}
+                            <FlatList
+                                data={repliesUser}
+                                keyExtractor={(item) => item._id}
+                                renderItem={({item}) => (
+                                    <PostCard key={item._id} item={item}/>
+                                )}
+                                ListEmptyComponent={<Text style={styles.message}>You have no replies yet!</Text>}
+                                onEndReached={fetchMorePosts}
+                                onEndReachedThreshold={0.5}
+                                ListFooterComponent={() => (
+                                    <Button title="Load More" onPress={fetchMorePosts}/>
+                                )}
+                            />
                         </>
                     )}
                 </ScrollView>
