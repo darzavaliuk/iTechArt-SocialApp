@@ -9,18 +9,27 @@ import getTimeDuration from "./timeGen";
 import {useNavigation} from "@react-navigation/native";
 import {Post, User} from "../../../redux/reducers/User";
 import {getPosts} from "../../../redux/actions/getPosts";
+import {RootState} from "../../../redux/reducers/rootReducer";
+import getProfile from "../../../redux/actions/getUser";
 
 type Props = {
     item: Post;
     isReply?: boolean | null;
-    postId?: string | null;
+    postId: string;
     replies?: boolean | null;
 };
 
+const selectPosts = (state: RootState) => state.post;
+
+const selectUser = (state: RootState) => state.user;
+
+const selectProfileUser = (state: RootState) => state.profileReducer;
+
 export const PostCard = ({item, isReply, postId, replies}: Props) => {
     const navigation = useNavigation();
-    const {user, token, users} = useSelector((state: any) => state.user);
-    const {posts} = useSelector((state: any) => state.post);
+    const {user, token, users} = useSelector(selectUser);
+    const {userProfile} = useSelector(selectProfileUser);
+    const {posts} = useSelector(selectPosts);
     const [openModal, setOpenModal] = useState(false);
     const dispatch = useDispatch();
     const [userInfo, setUserInfo] = useState({
@@ -30,23 +39,17 @@ export const PostCard = ({item, isReply, postId, replies}: Props) => {
         },
     });
 
-    const time = item?.createdAt;
-    const formattedDuration = getTimeDuration(time!);
-
     const profileHandler = async (e: User) => {
-        await axios
-            .get(`${URI}/get-user/${e._id}`, {
-                headers: {Authorization: `Bearer ${token}`},
-            })
+        await getProfile(e._id, token)(dispatch)
             .then(res => {
-                if (res.data.user._id !== user._id) {
+                if (userProfile._id !== user._id) {
                     navigation.navigate('UserProfileScreen', {
-                        id: res.data.user._id,
+                        id: userProfile.user._id,
                     });
                 } else {
                     navigation.navigate('ProfileScreen' as never);
                 }
-            });
+            }).catch((e) => console.log(e))
     };
 
     const reactsHandler = (e: User) => {
@@ -115,7 +118,7 @@ export const PostCard = ({item, isReply, postId, replies}: Props) => {
                         </View>
                     </View>
                     <View style={styles.containerModal}>
-                        <Text style={styles.durationText}>{formattedDuration}</Text>
+                        <Text style={styles.durationText}>{getTimeDuration(item.createdAt)}</Text>
                         {item?.user?._id === user._id && (
                             <TouchableOpacity onPress={() => setOpenModal(true)}>
                                 <Text style={styles.moreText}>...</Text>
