@@ -29,17 +29,17 @@ async function getDataRequest(token: string, subtargets: SubTarget, subtitle: st
     return data
 }
 
-async function getAllRequests(subtargets: any, subtitle: string) {
+async function getAllRequests(subtargets: SubTarget, subtitle: string) {
     const token = await getTokenRequest();
-    await getDataRequest(token!, subtargets, subtitle)
+    if (token)
+        await getDataRequest(token, subtargets, subtitle)
     return {token};
 }
 
-export const createTarget = (subtargets: any, subtitle: string) => async (dispatch: Dispatch<LoadTargetsAction>) => {
+export const createTarget = (subtargets: SubTarget, subtitle: string) => async (dispatch: Dispatch<LoadTargetsAction>) => {
     try {
         dispatch(createTargetRequest());
         const {token} = await getAllRequests(subtargets, subtitle)
-        console.log(token)
         dispatch(createTargetSuccess({subtargets, subtitle}));
     } catch (error) {
         dispatch(createTargetFailed((error as AxiosError<{

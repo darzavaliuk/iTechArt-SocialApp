@@ -33,8 +33,9 @@ async function getDataRequest(token: string) {
 
 async function getAllRequests() {
     const token = await getTokenRequest();
-    const targets = await getDataRequest(token!)
-    console.log("data1", targets.subTargets)
+    let targets;
+    if (token)
+        targets = await getDataRequest(token)
     return {token, targets};
 }
 
@@ -42,7 +43,6 @@ export const loadTargets = () => async (dispatch: Dispatch<LoadTargetsAction>) =
     try {
         dispatch(loadTargetsRequest());
         const {token, targets} = await getAllRequests()
-        console.log("data", token, targets)
         dispatch(loadTargetsSuccess({targets, token}));
     } catch (error: unknown) {
         dispatch(loadTargetsFailed((error as AxiosError<{
