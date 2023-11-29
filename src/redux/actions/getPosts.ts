@@ -29,7 +29,7 @@ export const getPosts = () => async (dispatch: Dispatch<GetPostsAction>) => {
         const dataPosts = data.posts;
 
         dispatch(getRepliesSuccess({dataPosts}));
-    } catch (error: any) {
+    } catch (error) {
         dispatch(
             getRepliesFailed(
                 (error as AxiosError<{ message: string }>)?.response?.data?.message ||

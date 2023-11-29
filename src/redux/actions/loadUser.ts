@@ -30,7 +30,9 @@ async function getDataRequest(token: string) {
 
 async function getAllRequests() {
     const token = await getTokenRequest();
-    const data = await getDataRequest(token!)
+    let data;
+    if (token)
+        data = await getDataRequest(token!)
     return {token, data};
 }
 
@@ -39,7 +41,7 @@ export const loadUser = () => async (dispatch: Dispatch<LoadUserAction>) => {
         dispatch(loadUserRequest());
         const {token, data} = await getAllRequests()
         dispatch(loadUserSuccess({user: data.user, token}));
-    } catch (error: unknown) {
+    } catch (error) {
         dispatch(loadUserFailed((error as AxiosError<{
             message: string
         }>)?.response?.data?.message || "Unexpected error"));
