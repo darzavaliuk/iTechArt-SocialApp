@@ -20,10 +20,7 @@ import PostCard from "../PostsDisplayScreen/PostCard/PostCard";
 import {StatsComponent} from "./StatsComponent";
 import {getPosts} from "../../redux/actions/getPosts";
 import {getReplies} from "../../redux/actions/getReplies";
-
-const selectTargets = (state: RootState) => state.user.targets;
-const selectUser = (state: RootState) => state.user;
-const selectPosts = (state: RootState) => state.post;
+import {selectPosts, selectTargets, selectUser} from "../../redux/selectors";
 
 export const ProfileScreen = () => {
     const [active, setActive] = useState(0);

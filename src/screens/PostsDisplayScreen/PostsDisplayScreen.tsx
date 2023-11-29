@@ -15,10 +15,8 @@ import {Loader} from "../../components/Loader/Loader";
 import {getAllUsers} from "../../redux/actions/getAllUsers";
 import PostCard from "./PostCard/PostCard";
 import {useNavigation} from "@react-navigation/native";
-import {RootState} from "../../redux/reducers/rootReducer";
 import {getAllPosts} from "../../redux/actions/getAllPosts";
-
-const selectPost = (state: RootState) => state.post;
+import {selectPost} from "../../redux/selectors";
 
 export const PostsDisplayScreen = () => {
     const {posts, isLoading} = useSelector(selectPost);

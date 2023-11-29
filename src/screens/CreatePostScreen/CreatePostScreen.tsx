@@ -15,10 +15,7 @@ import {useNavigation} from "@react-navigation/native";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {createPostAction} from "../../redux/actions/createPost";
 import {getAllPosts} from "../../redux/actions/getAllPosts";
-
-const selectUser = (state: RootState) => state.user;
-
-const selectPost = (state: RootState) => state.post;
+import {selectPost, selectUser} from "../../redux/selectors";
 
 const PostScreen = () => {
     const navigation = useNavigation();

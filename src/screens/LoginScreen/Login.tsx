@@ -22,10 +22,7 @@ import {COLORS} from "../../../constants/colors/colors";
 import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
 import ToastContext from "../../context/toasterContext";
 import {ToastType} from "../../../constants/toastTypes/toastTypes";
-
-const selectError = (state: RootState) => state.user.error;
-const selectIsAuthenticated = (state: RootState) => state.user.isAuthenticated;
-const selectLoading = (state: RootState) => state.user.loading;
+import {selectError, selectIsAuthenticated, selectLoading} from "../../redux/selectors";
 
 export const LoginScreen = () => {
     const {showToast} = useContext(ToastContext);

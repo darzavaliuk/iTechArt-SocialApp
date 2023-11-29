@@ -6,7 +6,6 @@ import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import {emailValidationSchema} from "../LoginScreen/validationScheme";
 import {Formik} from "formik";
 import {Loader} from "../../components/Loader/Loader";
-import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedText} from "./AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";
 import {resetErrorRequest} from "../../redux/actions/resetError";
@@ -14,10 +13,7 @@ import {COLORS} from "../../../constants/colors/colors";
 import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
 import {ToastType} from "../../../constants/toastTypes/toastTypes";
 import ToastContext from "../../context/toasterContext";
-
-const selectLoading = (state: RootState) => state.user.loading;
-const selectCode = (state: RootState) => state.user.code;
-const selectError = (state: RootState) => state.user.error;
+import {selectCode, selectError, selectLoading} from "../../redux/selectors";
 
 export const ForgetPasswordScreen = () => {
     const dispatch = useDispatch();
