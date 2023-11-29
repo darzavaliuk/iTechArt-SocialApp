@@ -3,14 +3,14 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {URI} from "../../../URI";
 import {TouchableOpacity, View, Image, TouchableWithoutFeedback, Text, Modal, StyleSheet} from "react-native";
-import {addLikes, removeLikes} from "../../../redux/actions/postActions";
 import PostDetailsCard from "./PostDetailsCard";
 import getTimeDuration from "./timeGen";
 import {useNavigation} from "@react-navigation/native";
 import {Post, Reply, User} from "../../../redux/reducers/User";
 import {getPosts} from "../../../redux/actions/getPosts";
-import {RootState} from "../../../redux/reducers/rootReducer";
 import getProfile from "../../../redux/actions/getUser";
+import {reactToPost} from "../../../redux/thunk/reactToPost";
+import {selectPosts, selectProfileUser, selectUser} from "../../../redux/selectors";
 
 type Props = {
     item: Post | Reply;
@@ -18,12 +18,6 @@ type Props = {
     postId: string;
     replies?: boolean | null;
 };
-
-const selectPosts = (state: RootState) => state.post;
-
-const selectUser = (state: RootState) => state.user;
-
-const selectProfileUser = (state: RootState) => state.profileReducer;
 
 export const PostCard = ({item, isReply, postId, replies}: Props) => {
     const navigation = useNavigation();
@@ -53,16 +47,17 @@ export const PostCard = ({item, isReply, postId, replies}: Props) => {
     };
 
     const reactsHandler = (e: User) => {
-        if (item?.likes?.length !== 0) {
-            const isLikedBefore = item?.likes?.find((i: any) => i.userId === user._id);
-            if (isLikedBefore) {
-                removeLikes({postId: postId ? postId : e._id, posts, user})(dispatch);
-            } else {
-                addLikes({postId: postId ? postId : e._id, posts, user})(dispatch);
-            }
-        } else {
-            addLikes({postId: postId ? postId : e._id, posts, user})(dispatch);
-        }
+        // if (item?.likes?.length !== 0) {
+        //     const isLikedBefore = item?.likes?.find((i) => i.userId === user._id);
+        //     if (isLikedBefore) {
+        //         removeLikes({postId: postId ? postId : e._id, posts, user})(dispatch);
+        //     } else {
+        //         addLikes({postId: postId ? postId : e._id, posts, user})(dispatch);
+        //     }
+        // } else {
+        //     addLikes({postId: postId ? postId : e._id, posts, user})(dispatch);
+        // }
+        dispatch(reactToPost(e._id, user._id, postId));
     };
 
     const deletePostHandler = async (e: string) => {
