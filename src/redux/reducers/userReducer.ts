@@ -1,4 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
+import {User} from "./User";
 
 const initialState = {
     isAuthenticated: false,
@@ -9,7 +10,8 @@ const initialState = {
     token: "",
     error: null,
     code: "",
-    email: ""
+    email: "",
+    targets: []
 };
 
 export const userReducer = createReducer(initialState, {
@@ -57,7 +59,7 @@ export const userReducer = createReducer(initialState, {
         state.isAuthenticated = false;
         state.loading = false;
         state.error = action.payload;
-        state.user = {};
+        state.user = {} as User;
     },
     FORGET_PASSWORD_REQUEST: state => {
         state.code = "";
@@ -91,7 +93,7 @@ export const userReducer = createReducer(initialState, {
     LOGOUT_USER_SUCCESS: state => {
         state.loading = false;
         state.isAuthenticated = false;
-        state.user = {};
+        state.user = {} as User;
     },
     LOGOUT_USER_FAILED: state => {
         state.loading = false;
@@ -106,5 +108,32 @@ export const userReducer = createReducer(initialState, {
     GET_USERS_FAILED: (state, action) => {
         state.isLoading = false;
         state.users = action.payload;
-    }
+    },
+    LOAD_TARGETS_REQUEST: (state, action) => {
+        state.targets = [];
+    },
+    LOAD_TARGETS_SUCCESS: (state, action) => {
+        state.targets = action.payload.targets;
+    },
+    LOAD_TARGETS_FAILED: (state, action) => {
+        state.targets = []
+    },
+    CREATE_TARGET_REQUEST: (state, action) => {
+
+    },
+    CREATE_TARGET_SUCCESS: (state, action) => {
+        state.targets = [...state.targets, {name: action.payload.subtitle, subTargets: action.payload.subtargets}]
+    },
+    CREATE_TARGET_FAILED: (state, action) => {
+
+    },
+    SET_TARGET_REQUEST: (state) => {
+
+    },
+    SET_TARGET_SUCCESS: (state, action) => {
+
+    },
+    SET_TARGET_FAILED: (state, action) => {
+        state.targets = []
+    },
 });

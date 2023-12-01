@@ -1,26 +1,24 @@
 import {Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import React, {useCallback} from "react";
+import React, {useCallback, useContext} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {forgetPassword} from "../../redux/actions/forgetPassword";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import {emailValidationSchema} from "../LoginScreen/validationScheme";
 import {Formik} from "formik";
 import {Loader} from "../../components/Loader/Loader";
-import {RootState} from "../../redux/reducers/rootReducer";
 import {AnimatedText} from "./AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";
-import {displayMessage} from "../../utils/displayMessage";
 import {resetErrorRequest} from "../../redux/actions/resetError";
 import {COLORS} from "../../../constants/colors/colors";
 import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
-
-const selectLoading = (state: RootState) => state.user.loading;
-const selectCode = (state: RootState) => state.user.code;
-const selectError = (state: RootState) => state.user.error;
+import {ToastType} from "../../../constants/toastTypes/toastTypes";
+import ToastContext from "../../context/toasterContext";
+import {selectCode, selectError, selectLoading} from "../../redux/selectors";
 
 export const ForgetPasswordScreen = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
+    const {showToast} = useContext(ToastContext);
 
     const loading = useSelector(selectLoading);
     const code = useSelector(selectCode);
@@ -32,7 +30,7 @@ export const ForgetPasswordScreen = () => {
                 navigation.navigate('CodeVerify' as never)
             }
             if (error) {
-                displayMessage(error)
+                showToast(ToastType.ERROR, error, 3000);
                 dispatch(resetErrorRequest);
             }
 

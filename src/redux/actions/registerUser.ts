@@ -4,9 +4,10 @@ import {Dispatch} from "redux";
 import {createAction} from "@reduxjs/toolkit";
 import * as types from "../actionTypes/actionTypes";
 import {setToken} from "../../utils/setToken";
+import {User} from "../reducers/User";
 
 const registerUserRequest = createAction(types.REGISTER_USER_REQUEST);
-const registerUserSuccess = createAction<{ user: any }>(types.REGISTER_USER_SUCCESS);
+const registerUserSuccess = createAction<{ user: User }>(types.REGISTER_USER_SUCCESS);
 const registerUserFailed = createAction<{ error: string }>(types.REGISTER_USER_FAILED);
 
 type RegisterUserAction =

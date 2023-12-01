@@ -1,5 +1,5 @@
 import {Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 import {loadUser} from "../../redux/actions/loadUser";
 import {useDispatch, useSelector} from "react-redux";
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
@@ -9,13 +9,14 @@ import {Easing, useSharedValue, withTiming} from "react-native-reanimated";
 import {signUpValidationSchema} from "./signUpValidationScheme";
 import {RootState} from "../../redux/reducers/rootReducer";
 import {NavigationProp, useFocusEffect} from "@react-navigation/native";
-import {displayMessage} from "../../utils/displayMessage";
 import {AnimatedText} from "../LoginScreen/AnimatedText";
 import {AnimatedBackground} from "./AnimatedBackground";
 import {Loader} from "../../components/Loader/Loader";
 import {resetErrorRequest} from "../../redux/actions/resetError";
 import {COLORS} from "../../../constants/colors/colors";
 import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
+import {ToastType} from "../../../constants/toastTypes/toastTypes";
+import ToastContext from "../../context/toasterContext";
 
 type Props = {
     navigation: NavigationProp<string>;
@@ -27,6 +28,7 @@ const selectError = (state: RootState) => state.user.error;
 
 export const SignUpScreen: React.FC<Props> = ({navigation}) => {
     const [avatar, setAvatar] = useState('');
+    const {showToast} = useContext(ToastContext);
     const dispatch = useDispatch();
 
     const error = useSelector(selectError);
@@ -52,7 +54,7 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
     useFocusEffect(
         useCallback(() => {
             if (error) {
-                displayMessage(error)
+                showToast(ToastType.ERROR, error, 3000);
                 dispatch(resetErrorRequest);
             }
             if (isAuthenticated) {
@@ -64,7 +66,7 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
 
     const handleSubmit = (values: { name: string, email: string, password: string }) => {
         if (avatar === '' || values.name === '' || values.email === '') {
-            displayMessage('Please fill the all fields and upload avatar')
+            showToast(ToastType.WARNING, 'Please fill the all fields and upload avatar', 3000);
         } else {
             registerUser(values.name!, values.email!, values.password!, avatar!)(dispatch);
         }
