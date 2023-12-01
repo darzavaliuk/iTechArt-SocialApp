@@ -1,15 +1,7 @@
-import { configureStore } from "@reduxjs/toolkit";
-import {userReducer} from "../reducers/userReducer";
+import {applyMiddleware, createStore} from "@reduxjs/toolkit";
+import {rootReducer} from "../reducers/rootReducer";
+import thunkMiddleware from "redux-thunk";
 
-const Store = configureStore({
-    reducer:{
-        user: userReducer,
-    },
-    middleware: getDefaultMiddleware =>
-        getDefaultMiddleware({
-            immutableCheck: false,
-            serializableCheck: false,
-        }),
-});
+const Store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
 
 export default Store;

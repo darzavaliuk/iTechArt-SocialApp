@@ -23,11 +23,9 @@ async function getTokenRequest() {
 }
 
 async function getDataRequest(token: string) {
-    console.log("token", token)
     const {data} = await axios.post(`${URI}/get-targets`, {}, {
         headers: {Authorization: `Bearer ${token}`},
     });
-    console.log("<<<data", data.targets)
     return data.targets
 }
 
