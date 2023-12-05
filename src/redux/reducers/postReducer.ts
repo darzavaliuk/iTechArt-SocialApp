@@ -2,10 +2,10 @@ import {createReducer} from '@reduxjs/toolkit';
 import {Post, Reply} from "./User";
 
 const intialState = {
-    posts:[] as Post[],
-    post:{} as Post,
+    posts: [] as Post[],
+    post: {} as Post,
     error: null,
-    isSuccess:false,
+    isSuccess: false,
     isLoading: true,
     postsUser: [] as Post[],
     repliesUser: [] as Reply[]
@@ -24,11 +24,12 @@ export const postReducer = createReducer(intialState, {
     CREATE_POST_REQUEST: state => {
         state.isLoading = true;
     },
-    GET_POSTS_SUCCESS: (state,action) => {
+    GET_POSTS_SUCCESS: (state, action) => {
+        console.log("dataPosts <<<", action.payload.dataPosts)
         state.isLoading = false;
         state.posts = action.payload.dataPosts;
     },
-    GET_POSTS_FAILED: (state,action) => {
+    GET_POSTS_FAILED: (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
     },
@@ -38,23 +39,23 @@ export const postReducer = createReducer(intialState, {
     GET_POST_REQUEST: state => {
         state.isLoading = true;
     },
-    GET_POST_SUCCESS: (state,action) => {
+    GET_POST_SUCCESS: (state, action) => {
         state.isLoading = false;
-        console.log(action.payload)
+        // console.log(action.payload)
         state.postsUser = action.payload.dataPosts;
     },
-    GET_POST_FAILED: (state,action) => {
+    GET_POST_FAILED: (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
     },
     GET_REPLIES_REQUEST: state => {
         state.isLoading = true;
     },
-    GET_REPLIES_SUCCESS: (state,action) => {
+    GET_REPLIES_SUCCESS: (state, action) => {
         state.isLoading = false;
-        state.repliesUser = action.payload;
+        state.repliesUser = action.payload.dataPosts;
     },
-    GET_REPLIES_FAILED: (state,action) => {
+    GET_REPLIES_FAILED: (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
     },
