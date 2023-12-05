@@ -26,11 +26,12 @@ export const TargetItem = ({item, itemIndex}) => {
         setTarget(item.subTargets, item._id)(dispatch);
     }
 
-    const myMap: Map<string, string> = item?.subTargets?.reduce((map, el) => {
+    const myMap: MyMap = new Map();
+
+    item?.subTargets?.forEach((el) => {
         const id: string = el._id;
-        map.set(id, '');
-        return map;
-    }, new Map());
+        myMap.set(id, "0");
+    });
 
     const timeToString = (time: Date) => {
         const date = new Date(time);
