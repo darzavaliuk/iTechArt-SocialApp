@@ -45,8 +45,10 @@ export const Calendar = () => {
     const WEEK_DAYS: string[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
     useEffect(() => {
-        const currentDate: Date = new Date();
+        const currentDate: Date = new Date(Date.now());
+        console.log(currentDate)
         setActiveDate(currentDate);
+        console.log(currentDate.getMonth(), currentDate.getFullYear())
         fetchEvent(currentDate.getMonth(), currentDate.getFullYear());
     }, []);
 
@@ -118,7 +120,12 @@ export const Calendar = () => {
     const matrix = generateMatrix();
 
     const modalTrigger = (d: string | number) => {
+        console.log(d)
         setDay(d.toString())
+    }
+
+    function generateUniqueKey() {
+        return Math.random().toString(36).substr(2, 9);
     }
 
     return (
@@ -147,25 +154,31 @@ export const Calendar = () => {
                 <View
                     style={styles.calendar}>
                     {matrix.map((row, k) =>
-                        (<View style={styles.dayRow}>
-                            {row.map((d, ind) => (
-                                <TouchableOpacity
-                                    onPress={() => modalTrigger(d)}
-                                    disabled={false}
-                                    style={styles.buttonCalendar}
-                                    key={ind}
-                                ><Text
-                                    style={[(ind === 0 ? (k === 0 ? styles.sun : styles.sunDates) : (k === 0 ? styles.dayRowText : styles.otherRowText)), dots[d] && styles.dottedDate]}
-                                >{d}</Text></TouchableOpacity>
-                            ))}</View>))}
+                        (<View style={styles.dayRow} key={k}>
+                                {row.map((d, ind) => (
+                                        <TouchableOpacity
+                                            onPress={() => modalTrigger(d)}
+                                            disabled={false}
+                                            style={styles.buttonCalendar}
+                                            key={generateUniqueKey()}
+                                        ><Text
+                                            style={[(ind === 0 ? (k === 0 ? styles.sun : styles.sunDates) : (k === 0 ? styles.dayRowText : styles.otherRowText)), dots[d] && styles.dottedDate]}
+                                        >{d}</Text>
+                                        </TouchableOpacity>
+                                    )
+                                )}
+                        </View>
+                        )
+                    )}
                     <ScrollView style={{width: '100%'}}>
                         <View>
                             {data &&
                                 data?.subTargets?.map((subtarget) => {
                                     const date = subtarget._id.slice(-2);
-                                    if (date == day) {
+                                    console.log(Number(date))
+                                    if (Number(date) == day) {
                                         return subtarget.events.map((target, index: number) => (
-                                            <CardComponent target={target} key={index}/>
+                                            <CardComponent target={target} key={index + target._id}/>
                                         ));
                                     }
                                     return null;
@@ -202,7 +215,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(168, 218, 220,0.4)',
         height: 500,
         width: 400,
     },
@@ -226,7 +238,7 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         paddingRight: 15,
         alignItems: 'center',
-        backgroundColor: '#457b9d',
+        backgroundColor: '#3C1874',
     },
     buttonChangeMonthLeft: {
         position: 'absolute',
@@ -299,6 +311,7 @@ const styles = StyleSheet.create({
 
     dottedDate: {
         backgroundColor: 'blue',
+        width: 30,
         borderRadius: 4,
         paddingHorizontal: 3,
         paddingVertical: 1,
@@ -306,8 +319,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 18,
         textShadowColor: 'rgba(0, 0, 0, 0.25)',
-        textShadowOffset: { width: 0, height: 2 },
+        textShadowOffset: {width: 0, height: 2},
         textShadowRadius: 4,
+        textAlign: "center"
     },
     background: {
         position: "absolute",
@@ -336,8 +350,13 @@ const styles = StyleSheet.create({
         fontSize: 51.2, textAlign: "center", marginTop: 20,
     },
     wrap: {
-        width: 400, borderRadius: 8, backgroundColor: "#203953", shadowColor: "#4048BF",
-        shadowOpacity: 0.74, shadowRadius: 30, elevation: 10,
+        width: 400,
+        borderRadius: 8,
+        backgroundColor: "#203953",
+        shadowColor: "#4048BF",
+        shadowOpacity: 0.74,
+        shadowRadius: 30,
+        elevation: 10,
     },
     text: {
         fontSize: 28.8, color: "#ECF0F9", fontWeight: "600", fontFamily: "Avenir",
@@ -346,9 +365,15 @@ const styles = StyleSheet.create({
         justifyContent: "center", alignItems: "center",
     },
     shadowButton: {
-        borderColor: "blue", borderWidth: 1, borderRadius: 105, width: 210, height: 80,
-        shadowColor: "#4048BF", shadowOffset: {width: 8.4, height: 8.4},
-        shadowOpacity: 0.5, shadowRadius: 30, elevation: 10,
+        borderColor: "blue",
+        borderWidth: 1,
+        borderRadius: 105,
+        width: 210, height: 80,
+        shadowColor: "#4048BF",
+        shadowOffset: {width: 8.4, height: 8.4},
+        shadowOpacity: 0.5,
+        shadowRadius: 30,
+        elevation: 10,
     },
     mainButton: {
         zIndex: 10,

@@ -30,7 +30,7 @@ export const CardComponent = ({target}) => {
                         backgroundColorOnComplete="#6CC644"
                         width={200}
                         style={styles.progressBar}
-                        useNativeDriver={true}
+                        useNativeDriver={false}
                     />
                 </View>
             </Card.Content>
@@ -43,9 +43,10 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     cardContent: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        // alignItems: 'center',
+        marginLeft: 20
     },
     targetText: {
         alignSelf: 'center',
