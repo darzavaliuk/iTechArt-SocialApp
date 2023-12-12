@@ -19,7 +19,7 @@ import getProfile from "../../redux/actions/getUser";
 import {getPosts} from "../../redux/actions/getPostsById";
 import {getReplies} from "../../redux/actions/getRepliesById";
 import {RootStackScreenProps} from "../../navigation/MainStack";
-import {selectPosts, selectProfileUser, selectReplies, selectUser} from "../../redux/selectors";
+import {selectPostsID, selectProfileUser, selectReplies, selectUser} from "../../redux/selectors";
 
 export const UserProfileScreen = ({route}: RootStackScreenProps<'UserProfileScreen'>) => {
     const [active, setActive] = useState(0);
@@ -27,7 +27,7 @@ export const UserProfileScreen = ({route}: RootStackScreenProps<'UserProfileScre
     const {userProfile} = useSelector(selectProfileUser);
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const {posts} = useSelector(selectPosts);
+    const {posts} = useSelector(selectPostsID);
     const {replies} = useSelector(selectReplies);
 
     useEffect(() => {
@@ -37,8 +37,6 @@ export const UserProfileScreen = ({route}: RootStackScreenProps<'UserProfileScre
     }, []);
 
     const [scrollY] = useState(new Animated.Value(0));
-
-    const mock_username = userProfile?.name ? userProfile.name : "";
 
     const {
         headerHeight,
@@ -56,7 +54,7 @@ export const UserProfileScreen = ({route}: RootStackScreenProps<'UserProfileScre
             {userProfile && posts && replies &&
                 <View style={{backgroundColor: "white", flex: 1, marginHorizontal: 10}}>
                     <Header
-                        userName={mock_username}
+                        userName={userProfile?.name}
                         animatedHeaderStyles={{height: headerHeight, zIndex: headerZIndex}}
                         animatedTextStyles={{bottom: headerTitleBottom}}
                         userNameFontSize={headerFontSize}
@@ -183,7 +181,7 @@ export const UserProfileScreen = ({route}: RootStackScreenProps<'UserProfileScre
 
                         {active === 1 && (
                             <>
-                                {replies && replies?.map((item) => (
+                                {replies && Array.isArray(replies) && replies?.map((item) => (
                                     <PostCard postId={item._id} key={item._id} item={item} replies={true}></PostCard>
                                 ))}
                             </>
@@ -193,7 +191,7 @@ export const UserProfileScreen = ({route}: RootStackScreenProps<'UserProfileScre
                             <>
                                 {posts.length === 0 && (
                                     <Text style={{color: 'black', fontSize: 14, marginTop: 8, textAlign: 'center'}}>
-                                        You have no posts yet!
+                                        {userProfile.name} has no posts yet!
                                     </Text>
                                 )}
                             </>
@@ -201,9 +199,9 @@ export const UserProfileScreen = ({route}: RootStackScreenProps<'UserProfileScre
 
                         {active === 1 && (
                             <>
-                                {replies.length === 0 && (
+                                {replies?.length === 0 && (
                                     <Text style={{color: 'black', fontSize: 14, marginTop: 8, textAlign: 'center'}}>
-                                        You have no replies yet!
+                                        {userProfile.name} has no replies yet!
                                     </Text>
                                 )}
                             </>
