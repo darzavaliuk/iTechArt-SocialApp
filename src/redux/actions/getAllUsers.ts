@@ -1,17 +1,8 @@
 import {URI} from "../../URI";
-import axios, {AxiosError} from "axios";
+import {AxiosError} from "axios";
 import {Dispatch} from "redux";
-import {getToken} from "../../utils/getToken";
-import {createAction} from "@reduxjs/toolkit";
-import {
-    GET_USERS_FAILED,
-    GET_USERS_REQUEST,
-    GET_USERS_SUCCESS
-} from "../actionTypes/actionTypes";
-
-const getAllUsersRequest = createAction(GET_USERS_REQUEST);
-const getAllUsersSuccess = createAction<any, typeof GET_USERS_SUCCESS>(GET_USERS_SUCCESS);
-const getAllUsersFailed = createAction<any, typeof GET_USERS_FAILED>(GET_USERS_FAILED);
+import {authRequest} from "./authFetch";
+import {getAllUsersFailed, getAllUsersRequest, getAllUsersSuccess} from "./createAction";
 
 export type GetAllPostsAction =
     | ReturnType<typeof getAllUsersRequest>
@@ -23,11 +14,7 @@ export const getAllUsers = () => async (dispatch: Dispatch<GetAllPostsAction>) =
     try {
         dispatch(getAllUsersRequest());
 
-        const token = await getToken();
-
-        const {data} = await axios.get(`${URI}/users`, {
-            headers: {Authorization: `Bearer ${token}`},
-        });
+        const data = await authRequest<any>('get', `${URI}/users`);
 
         const dataUsers = data.users;
 

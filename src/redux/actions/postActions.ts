@@ -3,6 +3,8 @@ import {Dispatch} from 'redux';
 import {URI} from "../../URI";
 import {getToken} from "../../utils/getToken";
 import {Reply} from "../reducers/User";
+import {GET_POSTS_SUCCESS} from "../actionTypes/actionTypes";
+import {authRequest} from "./authFetch";
 
 interface LikesParams {
     postId?: string | null;
@@ -37,31 +39,21 @@ export const addLikes =
                 );
 
                 dispatch({
-                    type: 'GET_POSTS_SUCCESS',
+                    type: GET_POSTS_SUCCESS,
                     payload: {dataPosts: updatedPosts},
                 });
 
-                await axios.put(
-                    `${URI}/update-likes`,
-                    {postId},
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    },
-                );
+                await authRequest<any>('put', `${URI}/update-likes`, {postId});
+
             } catch (error: any) {
                 console.log(error, 'error');
             }
         };
 
-// remove likes
 export const removeLikes =
     ({postId, posts, user}: LikesParams) =>
         async (dispatch: Dispatch<any>) => {
             try {
-                const token = await getToken()
-
                 const updatedPosts = posts.map((userObj: any) =>
                     userObj._id === postId
                         ? {
@@ -77,21 +69,15 @@ export const removeLikes =
                     payload: {dataPosts: updatedPosts},
                 });
 
-                await axios.put(
+                await authRequest<any>('put',
                     `${URI}/update-likes`,
-                    {postId},
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    },
+                    {postId}
                 );
             } catch (error) {
                 console.error('Error following likes:', error);
             }
         };
 
-// add likes to reply
 export const addLikesToReply =
     ({postId, posts, user, replyId, title}: LikesParams) =>
         async (dispatch: Dispatch<any>) => {
@@ -120,19 +106,15 @@ export const addLikesToReply =
                         : post,
                 );
                 dispatch({
-                    type: 'GET_POSTS_SUCCESS',
+                    type: GET_POSTS_SUCCESS,
                     payload: {dataPosts: updatedPosts},
                 });
 
-                await axios.put(
+                await authRequest<any>('put',
                     `${URI}/update-replies-react`,
                     {postId, replyId, replyTitle: title},
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    },
                 );
+
             } catch (error) {
                 console.log(error, 'error');
             }
@@ -142,7 +124,7 @@ export const removeLikesFromReply =
     ({postId, posts, user, replyId}: LikesParams) =>
         async (dispatch: Dispatch<any>) => {
             try {
-                const token = await  getToken()
+                const token = await getToken()
 
                 const updatedPosts = posts.map((post: any) =>
                     post._id === postId
@@ -163,22 +145,19 @@ export const removeLikesFromReply =
                 );
 
                 dispatch({
-                    type: 'GET_POSTS_SUCCESS',
+                    type: GET_POSTS_SUCCESS,
                     payload: {dataPosts: updatedPosts},
                 });
 
-                await axios.put(
+                await authRequest<any>('put',
                     `${URI}/update-replies-react`,
                     {postId, replyId},
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    },
                 );
+
             } catch (error: any) {
                 console.log(error, 'error');
             }
+
         };
 
 export const addLikesToRepliesReply =
@@ -221,15 +200,12 @@ export const addLikesToRepliesReply =
                     type: 'GET_POSTS_SUCCESS',
                     payload: {dataPosts: updatedPosts},
                 });
-                await axios.put(
+
+                await authRequest<any>('put',
                     `${URI}/update-reply-react`,
                     {postId, replyId, singleReplyId, replyTitle: title},
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    },
                 );
+
             } catch (error) {
                 console.log(error, 'error');
             }
@@ -271,15 +247,11 @@ export const removeLikesFromRepliesReply =
                     payload: {dataPosts: updatedPosts},
                 });
 
-                await axios.put(
+                await authRequest<any>('put',
                     `${URI}/update-reply-react`,
                     {postId, replyId, singleReplyId},
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    },
                 );
+
             } catch (error) {
                 console.log(error, 'error');
             }

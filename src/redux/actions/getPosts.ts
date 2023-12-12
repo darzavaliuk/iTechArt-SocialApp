@@ -1,37 +1,33 @@
 import {Dispatch} from "redux";
-import {getToken} from "../../utils/getToken";
-import axios, {AxiosError} from "axios";
+import {AxiosError} from "axios";
 import {URI} from "../../URI";
-import {createAction} from "@reduxjs/toolkit";
-import {GET_POST_FAILED, GET_POST_REQUEST, GET_POST_SUCCESS} from "../actionTypes/actionTypes";
-
-const getRepliesRequest = createAction(GET_POST_REQUEST);
-const getRepliesSuccess = createAction<any, typeof GET_POST_SUCCESS>(GET_POST_SUCCESS);
-const getRepliesFailed = createAction<any, typeof GET_POST_FAILED>(GET_POST_FAILED);
+import {authRequest} from "./authFetch";
+import {
+    getPostFailed,
+    getPostRequest,
+    getPostSuccess,
+    getRepliesFailed,
+    getRepliesRequest,
+    getRepliesSuccess
+} from "./createAction";
 
 export type GetPostsAction =
-    | ReturnType<typeof getRepliesRequest>
-    | ReturnType<typeof getRepliesSuccess>
-    | ReturnType<typeof getRepliesFailed>;
+    | ReturnType<typeof getPostRequest>
+    | ReturnType<typeof getPostSuccess>
+    | ReturnType<typeof getPostFailed>;
 
 export const getPosts = () => async (dispatch: Dispatch<GetPostsAction>) => {
     try {
-        dispatch(getRepliesRequest());
+        dispatch(getPostRequest());
 
-        const token = await getToken()
-
-        const {data} = await axios.get(`${URI}/get-posts`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        const data = await authRequest<any>('get', `${URI}/get-posts`);
 
         const dataPosts = data.posts;
 
-        dispatch(getRepliesSuccess({dataPosts}));
+        dispatch(getPostSuccess({dataPosts}));
     } catch (error) {
         dispatch(
-            getRepliesFailed(
+            getPostFailed(
                 (error as AxiosError<{ message: string }>)?.response?.data?.message ||
                 "Unexpected error"
             )

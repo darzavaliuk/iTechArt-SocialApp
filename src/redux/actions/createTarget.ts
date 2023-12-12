@@ -1,14 +1,9 @@
 import {Dispatch} from "redux";
 import axios, {AxiosError} from "axios";
 import {URI} from "../../URI";
-import {createAction} from "@reduxjs/toolkit";
 import {getToken} from "../../utils/getToken";
-import {CREATE_TARGET_FAILED, CREATE_TARGET_REQUEST, CREATE_TARGET_SUCCESS} from "../actionTypes/actionTypes";
 import {SubTarget} from "../reducers/User";
-
-const createTargetRequest = createAction(CREATE_TARGET_REQUEST);
-const createTargetSuccess = createAction<any, typeof CREATE_TARGET_SUCCESS>(CREATE_TARGET_SUCCESS);
-const createTargetFailed = createAction<any, typeof CREATE_TARGET_FAILED>(CREATE_TARGET_FAILED);
+import {createTargetFailed, createTargetRequest, createTargetSuccess} from "./createAction";
 
 export type LoadTargetsAction =
     | ReturnType<typeof createTargetRequest>

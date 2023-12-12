@@ -5,10 +5,8 @@ import {createAction} from "@reduxjs/toolkit";
 import * as types from "../actionTypes/actionTypes";
 import {setToken} from "../../utils/setToken";
 import {User} from "../reducers/User";
-
-const registerUserRequest = createAction(types.REGISTER_USER_REQUEST);
-const registerUserSuccess = createAction<{ user: User }>(types.REGISTER_USER_SUCCESS);
-const registerUserFailed = createAction<{ error: string }>(types.REGISTER_USER_FAILED);
+import {authRequest} from "./authFetch";
+import {registerUserFailed, registerUserRequest, registerUserSuccess} from "./createAction";
 
 type RegisterUserAction =
     | ReturnType<typeof registerUserRequest>
@@ -26,8 +24,7 @@ export const registerUser = (
 
         const config = {headers: {"Content-Type": "application/json"}};
 
-        const {data} = await axios.post(
-            `${URI}/registration`,
+        const data = await authRequest<any>('post',  `${URI}/registration`,
             {name, email, password, avatar},
             config
         );

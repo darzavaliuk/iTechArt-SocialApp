@@ -1,23 +1,18 @@
 import {Dispatch} from "redux";
-import {getToken} from "../../utils/getToken";
-import axios, {AxiosError} from "axios";
+import {AxiosError} from "axios";
 import {URI} from "../../URI";
 import {User} from "../reducers/User";
-import {createAction} from "@reduxjs/toolkit";
-import {
-    CREATE_POST_FAILED,
-    CREATE_POST_REQUEST,
-    CREATE_POST_SUCCESS,
-} from "../actionTypes/actionTypes";
-
-const createPostRequest = createAction(CREATE_POST_REQUEST);
-const createPostSuccess = createAction<any, typeof CREATE_POST_SUCCESS>(CREATE_POST_SUCCESS);
-const createPostFailed = createAction<any, typeof CREATE_POST_FAILED>(CREATE_POST_FAILED);
+import {authRequest} from "./authFetch";
+import {createPostFailed, createPostRequest, createPostSuccess} from "./createAction";
 
 export type CreatePostsAction =
     | ReturnType<typeof createPostRequest>
     | ReturnType<typeof createPostSuccess>
     | ReturnType<typeof createPostFailed>;
+
+interface PostData {
+    user: User;
+}
 
 export const createPostAction =
     (
@@ -29,16 +24,14 @@ export const createPostAction =
         async (dispatch: Dispatch<CreatePostsAction>) => {
             try {
                 dispatch(createPostRequest());
-
-                const token = await getToken();
-
-                const {data} = await axios.post(
+                const response = await authRequest<PostData>(
+                    'POST',
                     `${URI}/create-post`,
-                    {title, image, user, replies},
-                    {
-                        headers: {Authorization: `Bearer ${token}`},
-                    });
-                const userData = data.user
+                    {title, image, user, replies}
+                );
+
+                const userData = response.user;
+
                 dispatch(createPostSuccess(
                     {userData}
                 ));

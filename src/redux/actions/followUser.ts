@@ -5,6 +5,8 @@ import axios from "axios";
 import {User} from "../reducers/User";
 import {createAction} from "@reduxjs/toolkit";
 import {AxiosError} from "axios";
+import {authRequest} from "./authFetch";
+import {followUserFail, followUserRequest, followUserSuccess} from "./createAction";
 
 interface FollowUnfollowParams {
     userId: string;
@@ -17,10 +19,6 @@ export type FollowUserAction =
     | ReturnType<typeof followUserSuccess>
     | ReturnType<typeof followUserFail>;
 
-const followUserRequest = createAction('followUserRequest');
-const followUserSuccess = createAction<User[]>('followUserSuccess');
-const followUserFail = createAction<string>('followUserFail');
-
 export const followUserAction = ({
                                      userId,
                                      users,
@@ -29,7 +27,6 @@ export const followUserAction = ({
     try {
         dispatch(followUserRequest());
 
-        const token = await getToken();
         const updatedUsers = users.map((userObj) =>
             userObj._id === followUserId
                 ? {
@@ -41,15 +38,12 @@ export const followUserAction = ({
 
         dispatch(followUserSuccess(updatedUsers));
 
-        await axios.put(
+        await authRequest<any>(
+            'put',
             `${URI}/add-user`,
-            {followUserId},
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
+            {followUserId}
         );
+
     } catch (error) {
         dispatch(followUserFail((error as AxiosError<{ message: string }>)?.response?.data?.message ||
             "Unexpected error"));

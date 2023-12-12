@@ -2,16 +2,8 @@ import {getToken} from "../../utils/getToken";
 import axios, {AxiosError} from "axios";
 import {URI} from "../../URI";
 import {Dispatch} from "redux";
-import {createAction} from "@reduxjs/toolkit";
-import {
-    GET_NOTIFICATIONS_FAILED,
-    GET_NOTIFICATIONS_REQUEST,
-    GET_NOTIFICATIONS_SUCCESS
-} from "../actionTypes/actionTypes";
-
-const getNotificationsRequest = createAction(GET_NOTIFICATIONS_REQUEST);
-const getNotificationsSuccess = createAction<any, typeof GET_NOTIFICATIONS_SUCCESS>(GET_NOTIFICATIONS_SUCCESS);
-const getNotificationsFailed = createAction<any, typeof GET_NOTIFICATIONS_FAILED>(GET_NOTIFICATIONS_FAILED);
+import {authRequest} from "./authFetch";
+import {getNotificationsFailed, getNotificationsRequest, getNotificationsSuccess} from "./createAction";
 
 export type GetAllPostsAction =
     | ReturnType<typeof getNotificationsRequest>
@@ -22,13 +14,7 @@ export const getNotifications = () => async (dispatch: Dispatch<GetAllPostsActio
     try {
         dispatch(getNotificationsRequest());
 
-        const token = await getToken();
-
-        const {data} = await axios.get(`${URI}/get-notifications`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        const data = await authRequest<any>('get', `${URI}/get-notifications`);
 
         const dataNotifications = data.notifications
 

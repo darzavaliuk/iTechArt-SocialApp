@@ -1,12 +1,8 @@
-import {createAction} from "@reduxjs/toolkit";
-import axios, {AxiosError} from "axios";
+import {AxiosError} from "axios";
 import {URI} from "../../URI";
 import {Dispatch} from "redux";
-import * as types from "../actionTypes/actionTypes";
-
-const resetPasswordRequest = createAction(types.RESET_PASSWORD_REQUEST);
-const resetPasswordSuccess = createAction<{ data: any }>(types.RESET_PASSWORD_SUCCESS);
-const resetPasswordFailed = createAction<{ error: string }>(types.RESET_PASSWORD_FAILED);
+import {authRequest} from "./authFetch";
+import {resetPasswordFailed, resetPasswordRequest, resetPasswordSuccess} from "./createAction";
 
 type ResetPasswordAction =
     | ReturnType<typeof resetPasswordRequest>
@@ -19,7 +15,9 @@ export const resetPassword = (email: string, password: string) => async (dispatc
 
         const config = {headers: {"Content-Type": "application/json"}};
 
-        const {data} = await axios.post(`${URI}/reset-password`, {email, password}, config);
+        // const {data} = await axios.post(`${URI}/reset-password`, {email, password}, config);
+
+        const data = await authRequest<any>('post', `${URI}/reset-password`, {email, password}, config);
 
         dispatch(resetPasswordSuccess({data}));
     } catch (error) {

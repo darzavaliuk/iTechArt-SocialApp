@@ -1,4 +1,5 @@
-import {FETCH_EVENTS_FAILURE, FETCH_EVENTS_REQUEST, FETCH_EVENTS_SUCCESS} from "../actions/getEvents";
+import {createReducer} from "@reduxjs/toolkit";
+import {fetchEventsFailure, fetchEventsRequest, fetchEventsSuccess} from "../actions/createAction";
 
 const initialState = {
     data: null,
@@ -6,27 +7,18 @@ const initialState = {
     error: null,
 };
 
-export const eventsReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case FETCH_EVENTS_REQUEST:
-            return {
-                ...state,
-                loading: true,
-                error: null,
-            };
-        case FETCH_EVENTS_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                data: action.payload,
-            };
-        case FETCH_EVENTS_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.payload,
-            };
-        default:
-            return state;
-    }
-};
+export const eventsReducer = createReducer(initialState, (builder) => {
+    builder
+        .addCase(fetchEventsRequest, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(fetchEventsSuccess, (state, action) => {
+            state.loading = false;
+            state.data = action.payload;
+        })
+        .addCase(fetchEventsFailure, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        });
+});

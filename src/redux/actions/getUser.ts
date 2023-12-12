@@ -3,22 +3,17 @@ import {User} from "../reducers/User";
 import {Dispatch} from "redux";
 import {URI} from "../../URI";
 import {createAction} from "@reduxjs/toolkit";
-
-const profileRequest = createAction('PROFILE_REQUEST');
-const profileSuccess = createAction<User>('PROFILE_SUCCESS');
-const profileError = createAction<string>('PROFILE_ERROR');
+import {authRequest} from "./authFetch";
+import {profileError, profileRequest, profileSuccess} from "./createAction";
 
 const getProfile = (id: string, token: string) => {
     return async (dispatch: Dispatch) => {
         try {
             dispatch(profileRequest());
 
-            const response = await axios.get(`${URI}/get-user/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            const userProfile: User = response.data.user;
+            const response = await authRequest<any>('get', `${URI}/get-user/${id}`);
+
+            const userProfile: User = response.user;
 
             dispatch(profileSuccess(userProfile));
         } catch (error) {
