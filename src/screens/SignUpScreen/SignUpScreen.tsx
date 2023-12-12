@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Image, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import {loadUser} from "../../redux/actions/loadUser";
 import {useDispatch, useSelector} from "react-redux";
@@ -17,6 +17,7 @@ import {COLORS} from "../../../constants/colors/colors";
 import {FONT_FAMILY} from "../../../constants/fontFamily/fontFamily";
 import {ToastType} from "../../../constants/toastTypes/toastTypes";
 import ToastContext from "../../context/toasterContext";
+import {PERMISSIONS, request} from "react-native-permissions";
 
 type Props = {
     navigation: NavigationProp<string>;
@@ -35,20 +36,37 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
     const isAuthenticated = useSelector(selectIsAuthenticated);
     const loading = useSelector(selectLoading);
 
-    const uploadImage = () => {
-        ImagePicker.openPicker({
-            width: 300,
-            height: 300,
-            cropping: true,
-            compressImageQuality: 0.8,
-            includeBase64: true,
-        }).then((image: ImageOrVideo | null) => {
-            if (image) {
-                if ("data" in image) {
-                    setAvatar('data:image/jpeg;base64,' + image.data);
+    const uploadImage = async () => {
+        try {
+            const photoPermissionStatus = await request(
+                Platform.select({
+                    ios: PERMISSIONS.IOS.PHOTO_LIBRARY,
+                    android: PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
+                })
+            );
+            if (photoPermissionStatus === 'granted') {
+                try {
+                    const image = await ImagePicker.openPicker({
+                        width: 300,
+                        height: 300,
+                        cropping: true,
+                        compressImageQuality: 0.8,
+                        includeBase64: true,
+                    });
+                    if (image && "data" in image) {
+                        setAvatar('data:image/jpeg;base64,' + image.data);
+                    }
+                } catch (error) {
+                    if (error.message !== 'User cancelled image selection') {
+                        console.log('Image picking error: ', error);
+                    } else {
+                        console.log('Пользователь отменил выбор изображения.');
+                    }
                 }
             }
-        });
+        } catch (error) {
+            console.log('Image picking error:', error);
+        }
     };
 
     useFocusEffect(
@@ -105,6 +123,7 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
                                   values,
                                   errors,
                                   isValid,
+                                  touched
                               }) => (<>
                                 <View style={styles.container}>
                                     <AnimatedText text={"Sign Up"} typingSpeed={200}/>
@@ -121,7 +140,7 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
                                             keyboardType="email-address"
                                         />
                                     </View>
-                                    {errors.email &&
+                                    {touched.email && errors.email &&
                                         <Text style={styles.error}>{errors.email}</Text>
                                     }
                                     <View style={{display: "flex", flexDirection: "row"}}>
@@ -137,7 +156,7 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
                                             keyboardType="default"
                                         />
                                     </View>
-                                    {errors.name &&
+                                    {touched.name && errors.name &&
                                         <Text style={styles.error}>{errors.name}</Text>
                                     }
                                     <View style={{display: "flex", flexDirection: "row"}}>
@@ -153,7 +172,7 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
                                             keyboardType="visible-password"
                                         />
                                     </View>
-                                    {errors.password &&
+                                    {touched.password && errors.password &&
                                         <Text style={styles.error}>{errors.password}</Text>
                                     }
                                     <View style={{display: "flex", flexDirection: "row"}}>
@@ -168,7 +187,7 @@ export const SignUpScreen: React.FC<Props> = ({navigation}) => {
                                             value={values.passwordRepeat}
                                         />
                                     </View>
-                                    {errors.passwordRepeat &&
+                                    {touched.passwordRepeat && errors.passwordRepeat &&
                                         <Text style={styles.error}>{errors.passwordRepeat}</Text>
                                     }
                                     <TouchableOpacity

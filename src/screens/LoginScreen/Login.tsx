@@ -67,6 +67,7 @@ export const LoginScreen = () => {
                               values,
                               errors,
                               isValid,
+                              touched
                           }) => (<>
                             <Animated.View style={styles.container}>
                                 <AnimatedBackground/>
@@ -85,7 +86,7 @@ export const LoginScreen = () => {
                                             keyboardType="email-address"
                                         />
                                     </View>
-                                    {errors.email &&
+                                    {touched.email && errors.email &&
                                         <Text style={styles.error}>{errors.email}</Text>
                                     }
                                     <View style={{display: "flex", flexDirection: "row"}}>
@@ -101,7 +102,7 @@ export const LoginScreen = () => {
                                             value={values.password}
                                         />
                                     </View>
-                                    {errors.password &&
+                                    {touched.password && errors.password &&
                                         <Text style={styles.error}>{errors.password}</Text>
                                     }
                                     <Text style={styles.forgetText}
