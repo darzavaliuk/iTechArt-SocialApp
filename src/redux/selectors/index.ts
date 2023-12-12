@@ -2,6 +2,8 @@ import {RootState} from "../reducers/rootReducer";
 
 export const selectPosts = (state: RootState) => state.post;
 
+export const selectPostsID = (state: RootState) => state.postsReducer;
+
 export const selectUser = (state: RootState) => state.user;
 
 export const selectProfileUser = (state: RootState) => state.profileReducer;
