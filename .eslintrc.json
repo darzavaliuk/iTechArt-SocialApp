@@ -1,0 +1,22 @@
+{
+  "root": true,
+  "globals": {
+    "RequestInit": true,
+    "RequestInfo": true,
+    "Response": true,
+    "JSX": true
+  },
+  "rules": {
+    "react-native/no-unused-styles": 1,
+    "react-native/no-inline-styles": 1,
+    "react-native/no-color-literals": 1,
+    "react-native/no-raw-text": 1,
+    "react-native/no-single-element-style-arrays": 2,
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/no-unstable-nested-components": "off"
+  },
+  "extends": ["@react-native-community"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"]
+}

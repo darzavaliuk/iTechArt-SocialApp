@@ -1,5 +1,5 @@
 export const ToastType = {
-    SUCCESS: 'success',
-    WARNING: 'warning',
-    ERROR: 'error'
-}
+  SUCCESS: 'success',
+  WARNING: 'warning',
+  ERROR: 'error',
+};

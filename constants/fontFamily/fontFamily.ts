@@ -1,4 +1,4 @@
 export const FONT_FAMILY = {
-    REGULAR: "CodeNext-Trial-Regular",
-    EXTRABOLD: "CodeNext-ExtraBold"
-}
+  REGULAR: 'CodeNext-Trial-Regular',
+  EXTRABOLD: 'CodeNext-ExtraBold',
+};

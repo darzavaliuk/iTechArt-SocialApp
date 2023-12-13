@@ -1,26 +1,32 @@
-import {Dispatch} from "redux";
-import {AxiosError} from "axios";
-import {URI} from "../../URI";
-import {authRequest} from "./authFetch";
-import {loadUserFailed, loadUserRequest, loadUserSuccess} from "./createAction";
+import { Dispatch } from 'redux';
+import { AxiosError } from 'axios';
+import { URI } from '../../URI';
+import { authRequest } from './authFetch';
+import { loadUserFailed, loadUserRequest, loadUserSuccess } from './createAction';
 
 export type LoadUserAction =
-    | ReturnType<typeof loadUserRequest>
-    | ReturnType<typeof loadUserSuccess>
-    | ReturnType<typeof loadUserFailed>;
+  | ReturnType<typeof loadUserRequest>
+  | ReturnType<typeof loadUserSuccess>
+  | ReturnType<typeof loadUserFailed>;
 
 export const loadUser = () => async (dispatch: Dispatch<LoadUserAction>) => {
-    try {
-        dispatch(loadUserRequest());
+  try {
+    dispatch(loadUserRequest());
 
-        const data = await authRequest<any>('get', `${URI}/me`);
+    const data = await authRequest<any>('get', `${URI}/me`);
 
-        const user = data.user;
+    const user = data.user;
 
-        dispatch(loadUserSuccess({user}));
-    } catch (error) {
-        dispatch(loadUserFailed((error as AxiosError<{
-            message: string
-        }>)?.response?.data?.message || "Unexpected error"));
-    }
+    dispatch(loadUserSuccess({ user }));
+  } catch (error) {
+    dispatch(
+      loadUserFailed(
+        (
+          error as AxiosError<{
+            message: string;
+          }>
+        )?.response?.data?.message || 'Unexpected error'
+      )
+    );
+  }
 };
